@@ -1,0 +1,5 @@
+<?php
+
+/**
+ *	Post Helper  
+ */
