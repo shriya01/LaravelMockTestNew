@@ -41,6 +41,8 @@ Route::get('exams', '\App\Modules\Examination\Controllers\ExaminationController@
 Route::get('admin', '\App\Modules\Auth\Controllers\AdminController@getLogin');
 Route::post('admin', '\App\Modules\Auth\Controllers\AdminController@postLogin');
 Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@showTest')->name('showTest');
+	Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@showTest')->name('showTest');
+
 Route::group(['middleware' => ['auth','admin']], function () {
 
 	Route::get('dashboard', '\App\Modules\Dashboard\Controllers\DashboardController@index');
@@ -63,7 +65,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
 	Route::post('/addMockTest/{mocktest_id?}', '\App\Modules\MockTest\Controllers\MockTestController@postMockTest');
 	Route::get('/showMockTest/{mocktest?}', '\App\Modules\MockTest\Controllers\MockTestController@show')->name('showMockTest');
 
-	Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@showTest')->name('showTest');
 	Route::get('/testInstructions/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@testInstructions')->name('testInstructions');
 	Route::get('/importantInstructions/{examination_id?}/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@importantInstructions')->name('importantInstructions');
 
