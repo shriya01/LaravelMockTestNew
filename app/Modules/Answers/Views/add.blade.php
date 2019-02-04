@@ -32,7 +32,7 @@
                         <div class="col-lg-12">
                             @if(!empty($answers))
                                 @foreach($answers as $key)
-                                    <strong>{{'Question:-'}}</strong>{{ ucwords($key->question) }}<br/>
+                                    <strong>{{'Question:-'}}</strong> {!! (ucwords($key->question)) !!}<br/>
                                     <strong>{{'Options:-'}}</strong>
                                     @for($column="A"; $column <= "E"; $column++)
                                         <?php $columnname = 'option_'.$column;?>
@@ -41,6 +41,8 @@
                                     @endfor
                                     <br/>
                                     <strong>{{'Correct Answer:- '}}</strong>{{$key->correct_option_value}}
+                                    <br/>
+                                    <strong>{{'Answer Explaination:- '}}</strong>{{$key->answer}}
                                 @endforeach
                             @else
                                 <p>No Explaination Available<p>

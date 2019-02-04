@@ -28,12 +28,13 @@ class MockTest extends Model
      /**
      * Get the post that owns the comment.
      */
-    public function selectSectionName($id)
+    public function selectSectionName($test_name)
     {
+     
        return $sectionsName = DB::table('mock_tests')
                             ->Join('sections', 'mock_tests.section_id', '=', 'sections.id')
-                            ->select('section_id', 'section_name', 'no_of_question', 'marks', 'medium_of_exam', 'time_allotted','test_id', 'examination_id')
-                            ->where('examination_id',$id)
+                            ->select('section_id', 'section_name', 'max_question', 'marks', 'medium_of_exam', 'time_allotted','test_id')
+                            ->where('mock_tests.test_name',$test_name)
                             ->get();
                            
     }

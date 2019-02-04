@@ -129,7 +129,7 @@ class ExaminationController extends Controller
     */
     public function showTest($id)
     {
-        $data['test'] = DB::table('mock_tests')->distinct('test_name')->select('test_name', 'examination_id')->get();
+        $data['test'] = DB::table('mock_tests')->distinct('test_name')->select('test_name','examination_id')->get();
         return view("Examination::user.testList",$data);
     } 
 
@@ -139,9 +139,9 @@ class ExaminationController extends Controller
     * @param               $id
     * @return              View
     */
-    public function testInstructions($id)
+    public function testInstructions($test_name)
     {
-        $data['test'] = $this->mochtestObj->selectSectionName($id);
+        $data['test'] = $this->mochtestObj->selectSectionName($test_name);
         return view("Examination::user.testInstructions",$data);
     }
 
