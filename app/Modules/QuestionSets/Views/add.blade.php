@@ -1,12 +1,7 @@
 @extends('layouts.admin')
-@section('scripts')
-  <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
-  <script>
-  tinymce.init({
-    selector: '#question'
-  });
-  </script>
-  @ensection
+@section('script')
+<script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+@endsection
 @section('content')
 <div class="row">
 	<div class="col-lg-12">
@@ -31,7 +26,7 @@
 							<input type="hidden" name="section_id" value="{{$section_id}}">
 							<div class="form-group">
 								<label>Question Name</label>
-								<textarea class="form-control"  id="question" name="question"></textarea>
+								<input class="form-control" name="question">
 								@if ($errors->has('question'))
 								<span class="text-danger" role="alert">
 									<strong>{{ $errors->first('question') }}</strong>
@@ -65,7 +60,7 @@
 							</div>
 							<div class="form-group">
 								<label>Answer Explaination</label>
-								<input class="form-control" name="answer">
+								<textarea class="form-control"  id="answer" name="answer"></textarea>
 								@if(session()->has('error'))
 								<span class="text-danger" role="alert">     
 									<strong>{{ session()->get('error') }}</strong>   
@@ -77,7 +72,6 @@
 								</span>
 								@endif
 							</div>
-
 							<button type="submit" class="btn btn-default">Submit</button>
 						</div>
 					</div>

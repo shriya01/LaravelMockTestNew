@@ -9,8 +9,8 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h3 class="page-header">
-			<i class="fa fa-table"></i> {{ trans('Direction::messages.direction_guidelines')}}
-			<a class="btn btn-primary pull-right" href=" {{ url('/') }}/addDirectionGuidelines">{{ trans('Direction::messages.add_direction_guideline')}}</a>
+			<i class="fa fa-table"></i> {{ trans('Directions::messages.direction_guidelines')}}
+			<a class="btn btn-primary pull-right" href=" {{ url('/') }}/addDirectionGuidelines">{{ trans('Directions::messages.add_direction_guideline')}}</a>
 		</h3>
 	</div>
 </div>
@@ -29,8 +29,9 @@
 				<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
 					<thead>
 						<tr>
-							<th>{{ trans('Direction::messages.direction_set_name')}}</th>
-							<th>{{ trans('Direction::messages.directions')}}</th>
+							<th>{{ trans('Directions::messages.direction_guideline_name')}}</th>
+							<th>{{ trans('Directions::messages.direction_guidelines')}}</th>
+							<th>{{ trans('Section::messages.action')}}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -38,8 +39,13 @@
 						@foreach($directions as $key)
 						<tr class="odd gradeX">
 							<td>{{ ucwords($key->direction_set_name) }}</td>
-							<td>{{$key->directions}}</td>
-						</tr>
+							<td>{!! $key->directions !!}</td>
+							<td>
+								<a class="btn btn-primary" data-toggle="tooltip" title="Edit" href="{{ route('addDirectionGuidelines',Crypt::encrypt($key->id)) }}">
+									<span class="fa fa-pencil"></span>
+								</a>
+							</td>	
+						</tr>					
 						@endforeach
 						@endif
 					</tbody>

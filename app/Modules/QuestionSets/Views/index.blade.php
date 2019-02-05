@@ -44,7 +44,7 @@
                         @foreach($questions as $key)
                         
                         <tr class="odd gradeX">
-                            <td width="50%">{{$key->question}}</td>
+                            <td width="50%">{{strip_tags($key->question)}}</td>
                             @for($column="A"; $column <= "E"; $column++)
                                 <?php 
                                     $column_name = 'option_'.$column;

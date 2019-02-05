@@ -45,7 +45,9 @@
 								<span class="fa fa-eye"></span></a>
 								<a class="btn btn-info" data-toggle="tooltip" title="Show Posts/Tutorials" href="{{ route('showPosts',Crypt::encrypt($key->id) ) }}">
 								<span class="fa fa-list"></span></a>
-								<a class="btn btn-primary" data-toggle="tooltip" title="Edit" href="{{ route('addCategory',Crypt::encrypt($key->id)) }}"><span class="fa fa-pencil"></span></a>
+								<a class="btn btn-primary" data-toggle="tooltip" title="Edit" href="{{ route('addCategory',Crypt::encrypt($key->id)) }}">
+									<span class="fa fa-pencil"></span>
+								</a>
 							</td>
 						</tr>
 						@endforeach
