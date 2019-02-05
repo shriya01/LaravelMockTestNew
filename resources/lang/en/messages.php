@@ -11,5 +11,6 @@ return [
 	'settings'			=> 'Settings',
 	'logout'			=> 'Logout',
 	'tutorials'			=> 'Tutorials',
-	'direction_guidelines'=>'Direction Guidelines'
+	'direction_guidelines'=>'Direction Guidelines',
+	'questions'=>'Questions'
 ];

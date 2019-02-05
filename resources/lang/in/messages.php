@@ -11,5 +11,6 @@ return [
 	'settings'		=> 'सेटिंग्स',
 	'logout'		=> 'लोग आउट',
 	'tutorials'		=> 'ट्यूटोरियल',
-	'direction_guidelines'=>'दिशा निर्देश'
+	'direction_guidelines'=>'दिशा निर्देश',
+	'questions'=>'प्रशन'
 ];

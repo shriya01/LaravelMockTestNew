@@ -141,6 +141,8 @@ class ExaminationController extends Controller
     */
     public function testInstructions($test_name)
     {
+        $test_name = ucwords($test_name);
+        $test_name = str_replace('-', ' ', $test_name);
         $data['test'] = $this->mochtestObj->selectSectionName($test_name);
         return view("Examination::user.testInstructions",$data);
     }

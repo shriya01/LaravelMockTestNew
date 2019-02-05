@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 class QuestionSet extends Model
 {
     /**
@@ -12,4 +13,12 @@ class QuestionSet extends Model
     protected $fillable = [
         'section_id','category_id','option_A','option_B','option_C','option_D','option_E','question','correct_option_value'
     ];
+
+    public function getQuestions()
+    {
+    	return DB::table('question_sets')
+    	->join('sections', 'question_sets.section_id', '=', 'sections.id')
+			->join('answers', 'answers.question_id', '=', 'question_sets.id')
+    	->get()->toArray();
+    }
 }

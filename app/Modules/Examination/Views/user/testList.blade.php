@@ -17,6 +17,9 @@
 				<tr>                   
 					<td>{{$value->test_name}}</td>
 					<td>
+						<?php  $value->test_name = strtolower($value->test_name);
+								$value->test_name = str_replace(' ', '-', $value->test_name);
+						?>
 						<a href="{{ url('/') }}/testInstructions/{{ $value->test_name }}" target="_blank" class="btn btn-primary editTag btn-sm mr-2 tags-edit">Take Test</a>
 					</td>
 				</tr>
