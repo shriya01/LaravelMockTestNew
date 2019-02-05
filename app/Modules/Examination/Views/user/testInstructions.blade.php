@@ -5,13 +5,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 <link rel="stylesheet" href="{{asset('public/css/login.css')}}">
+<style type="text/css">
+  .table {
+    width: 98%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    margin-left: 2%;
+    }
+    h4
+    {
+        margin-left: 2%;
+    }
+</style>
 @endsection
 @section('content')
 <div class="container">
     <div class="panel panel-info">
         <div class="panel-heading">General Instructions:</div>
         <div class="panel-body">
-            <div><h2 align="left" >Please read instructions carefully</h2></div>
+            <div><h4 align="left" >Please read instructions carefully</h4></div>
             <ul>
                 <li><h5>The total duration of the examination is 180 minutes</h5></li>
                 <li><h5>Marked for review status for a question simply indicates that you would like to review the question again.</h5></li>

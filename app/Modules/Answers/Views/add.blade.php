@@ -42,7 +42,7 @@
                                     <br/>
                                     <strong>{{'Correct Answer:- '}}</strong>{{$key->correct_option_value}}
                                     <br/>
-                                    <strong>{{'Answer Explaination:- '}}</strong>{{$key->answer}}
+                                    <strong>{{'Answer Explaination:- '}}</strong>{!! $key->answer !!}
                                 @endforeach
                             @else
                                 <p>No Explaination Available<p>

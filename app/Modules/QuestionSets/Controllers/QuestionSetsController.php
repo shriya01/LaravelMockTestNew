@@ -4,8 +4,7 @@ namespace App\Modules\QuestionSets\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionSet;
-use Validator,Crypt;
-
+use Validator,Crypt,PDF;
 use App\Models\Answers;
 
 /**
@@ -32,6 +31,18 @@ class QuestionSetsController extends Controller
 		$section_id = Crypt::decrypt($section_id);
 		$data['questions'] = QuestionSet::get()->where('section_id',$section_id)->where('category_id',$id);
 		return view("QuestionSets::index",$data);
+	}
+
+	/**
+	 * @DateOfCreation 		24 Jan 2019
+	 * @ShortDescription	This function displays question list.
+	 * @param 				$id [Section Id]
+	 * @return 				View
+	 */
+	public function questions()
+	{
+		$data['questions'] = QuestionSet::get();
+		return view("QuestionSets::view",$data);
 	}
 
 	/**
@@ -108,4 +119,24 @@ class QuestionSetsController extends Controller
 			}
 		}
 	}
+
+	 /**
+     * @DateOfCreation    17 oct 2018
+     * @ShortDescription  This function generate pdf send email receipt and provide download
+     *                    and open option depends on operating system
+     * @param integer     $flat_number [flat number]
+     * @param integer     $month [month]
+     * @param integer     $email_send [whether to send email or not,default not send]
+     * @return            Response
+     */
+    public function generateAndEmailPDF()
+    {
+    	$this->questionObj = new QuestionSet;
+    	$result = $this->questionObj->getQuestions();
+        $data['result'] = $result;
+        $pdf = PDF::loadView('pdf.questionPdf', $data);
+        $file_path = $pdf->save(public_path('files/receipt.pdf'));
+        $pdf = $pdf->download('receipt.pdf');
+        return $pdf;
+    }
 }

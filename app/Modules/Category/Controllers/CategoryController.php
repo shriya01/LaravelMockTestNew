@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Section;
 use Validator,Crypt;
+
 /**
  * Category Controller
  * @package                LaravelMockTest
@@ -30,7 +31,7 @@ class CategoryController extends Controller
 
     /**
      * @DateOfCreation  `   24-Jan-2019
-     * @ShortDescription    This function displays the availble categories
+     * @ShortDescription    This function displays the form to add category
      * @return              View
      */
     public function getCategory($id=null)
@@ -47,8 +48,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * @DateOfCreation  `   24-Jan-2019
-     * @ShortDescription    This function displays the availble categories
+     * @DateOfCreation  `   5-Feb-2019
+     * @ShortDescription    This function handles submission of the add category form
+     * @param               Request $request [ Request Array Containing Request ]
      * @return              View
      */
     public function postCategory(Request $request)

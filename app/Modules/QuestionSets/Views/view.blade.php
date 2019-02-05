@@ -16,7 +16,7 @@ td>p>span
     <div class="col-lg-12">
         <h3 class="page-header">
             <i class="fa fa-table"></i> Questions
-            <a class="btn btn-primary pull-right" href=" {{ url('/') }}/addQuestion/{{$id}}/{{$section_id}}">Add Question</a>
+            <a class="btn btn-primary pull-right" href="{{ url('/') }}/downloadPdf">Download PDF</a>
         </h3>
     </div>
 </div>
@@ -37,10 +37,10 @@ td>p>span
                         <tr>
                             <th>Question</th>
                             @for($column="A"; $column <= "E"; $column++)
-                            <?php 
-                            $column_name = 'Option '.$column;
-                            ?>
-                            <th>{{ $column_name}}</th>
+                                <?php 
+                                    $column_name = 'Option '.$column;
+                                ?>
+                                <th>{{ $column_name}}</th>
                             @endfor
                             <th>Correct Option</th>
                             <th>Action</th>
@@ -50,12 +50,12 @@ td>p>span
                         @if(isset($questions))                   
                         @foreach($questions as $key)
                         <tr class="odd gradeX">
-                            <td width="50%">{!! ($key->question) !!}</td>
+                            <td width="40%">{!! $key->question !!}</td>
                             @for($column="A"; $column <= "E"; $column++)
-                            <?php 
-                            $column_name = 'option_'.$column;
-                            ?>
-                            <td width="9%">{{ $key->$column_name}}</td>
+                                <?php 
+                                    $column_name = 'option_'.$column;
+                                ?>
+                                <td width="9%">{{ $key->$column_name}}</td>
                             @endfor
                             <td>{{$key->correct_option_value}}</td>
                             <td><a class="btn btn-primary" data-toggle="tooltip" title="View Answer Explaination" href="{{ route('addHint',Crypt::encrypt($key->id)) }}"><span class="fa fa-eye"></span></a></td>

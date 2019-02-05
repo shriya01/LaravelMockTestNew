@@ -14,7 +14,3 @@ yarn-error.log
 .env
 .phpunit.result.cache
 webpack.mix.js
-composer.json
-composer.lock
-package.json
-storage

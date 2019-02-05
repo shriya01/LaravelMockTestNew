@@ -1,6 +1,11 @@
 @extends('layouts.admin')
-@section('script')
+@section('scripts')
 <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+<script>
+    tinymce.init({
+        selector: '#answer,#question'
+    });
+</script>
 @endsection
 @section('content')
 <div class="row">
@@ -26,7 +31,7 @@
 							<input type="hidden" name="section_id" value="{{$section_id}}">
 							<div class="form-group">
 								<label>Question Name</label>
-								<input class="form-control" name="question">
+								<input class="form-control" id ="question" name="question">
 								@if ($errors->has('question'))
 								<span class="text-danger" role="alert">
 									<strong>{{ $errors->first('question') }}</strong>

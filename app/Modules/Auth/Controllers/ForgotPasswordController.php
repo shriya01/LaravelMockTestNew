@@ -16,20 +16,21 @@ class ForgotPasswordController extends Controller
 {
     use SendsPasswordResetEmails;
     /**
-    * @DateOfCreation         08 Jan 2019
-    * @ShortDescription       Load the forgot password view
-    * @return                 View
-    */
+     * @DateOfCreation         08 Jan 2019
+     * @ShortDescription       Load the forgot password view
+     * @return                 View
+     */
     public function getForgotPassword()
     {
         return view('Auth::forgotpassword');
     }
+
     /**
-    * @DateOfCreation      08 Jan 2019
-    * @ShortDescription    Send a reset link to the given user.
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-    */
+     * @DateOfCreation      08 Jan 2019
+     * @ShortDescription    Send a reset link to the given user.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
     public function sendResetLinkEmail(Request $request)
     {
         $rules = ['email'    => 'required|email'];
@@ -63,17 +64,16 @@ class ForgotPasswordController extends Controller
         }
     }
     /**
-    * @DateOfCreation         08 Jan 2019
-    * @ShortDescription       This function is used to tell user that they are registered but not
-    *                         verified yet
-    * @param  Request $request
-    * @param  [type]  $user
-    */
+     * @DateOfCreation         08 Jan 2019
+     * @ShortDescription       This function is used to tell user that they are registered but not
+     *                         verified yet
+     *  @param  Request $request
+     * @param  [type]  $user
+     */
     protected function registered(Request $request, $user)
     {
         return redirect('/')->with('status', trans('Auth::messages.USER_PASSWORD_RESET_LINK'));
     }
-
 
     /**
      * @DateOfCreation        08 Jan 2019

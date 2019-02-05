@@ -6,6 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth,Session;
 
+/**
+ * DashboardController Controller
+ * @package                LaravelMockTest
+ * @subpackage             QuestionSetsController
+ * @category               Controller
+ * @DateOfCreation         14-Jan-2019
+ * @ShortDescription       This class handles dashboard related operations 
+ */
 class DashboardController extends Controller
 {
     /**
