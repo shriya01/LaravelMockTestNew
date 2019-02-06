@@ -18,7 +18,7 @@ class QuestionSet extends Model
     {
     	return DB::table('question_sets')
     	->join('sections', 'question_sets.section_id', '=', 'sections.id')
-			->join('answers', 'answers.question_id', '=', 'question_sets.id')
+		->join('answers', 'answers.question_id', '=', 'question_sets.id')
     	->get()->toArray();
     }
 }

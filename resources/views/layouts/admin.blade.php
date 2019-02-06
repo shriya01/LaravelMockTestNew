@@ -113,6 +113,9 @@
                             <li>
                                 <a href="{{ url('questions') }}"><i class="fa fa-list-alt fa-fw"></i>{{ __('messages.questions') }}</a>
                             </li>
+                            <li>
+                                <a href="{{ url('packages') }}"><i class="fa fa-list-alt fa-fw"></i>{{ __('messages.package') }}</a>
+                            </li>
                         </ul>
                     </div>
                     <!-- /.sidebar-collapse -->

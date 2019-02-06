@@ -1,0 +1,5 @@
+<?php
+
+/**
+ *	Package Helper  
+ */

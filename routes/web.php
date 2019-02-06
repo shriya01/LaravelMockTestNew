@@ -84,5 +84,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
 	Route::get('/directions/{id?}', '\App\Modules\Directions\Controllers\DirectionsController@index')->name('directions');
 	Route::get('/addDirectionGuidelines/{id?}', '\App\Modules\Directions\Controllers\DirectionsController@getDirection')->name('addDirectionGuidelines');
 	Route::get('/downloadPdf', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@generateAndEmailPDF')->name('downloadPdf');
-
+	//Package
+	Route::get('/packages', '\App\Modules\Package\Controllers\PackageController@index');
 });
