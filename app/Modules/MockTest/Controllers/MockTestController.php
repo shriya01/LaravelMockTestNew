@@ -73,7 +73,8 @@ class MockTestController extends Controller
             'test_name'                   => 'required|unique:mock_tests',
             'examination_name'            => 'required',
             'section'                     => 'required',
-            'max_question'                => 'required'  
+            'max_question'                => 'required',
+            'max_time'                    => 'required'  
         );
          if(!empty($id)){
             $rules['test_name']     = 'required|unique:mock_tests,test_name,'.$id.',id';
@@ -84,11 +85,14 @@ class MockTestController extends Controller
         } else {
             $sections = $request->section;
             $max_questions = $request->max_question;
+                        $max_time = $request->max_time;
+
             foreach ($sections as $key => $value) {
                 $formData = [
                     'examination_id'=>$request->examination_name,
                     'section_id'    => $value,
                     'max_question'  => $max_questions[$key],
+                    'max_time'      => $max_time[$key],
                     'test_name'     => strtoupper($request->test_name)
                 ];
                 MockTest::create($formData);

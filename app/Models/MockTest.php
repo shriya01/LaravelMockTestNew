@@ -13,7 +13,7 @@ class MockTest extends Model
      * @var array
      */
     protected $fillable = [
-        'section_id','examination_id','test_name','max_question'
+        'section_id','examination_id','test_name','max_question','max_time'
     ];
 
     public function getMockTests($mock_tests)
@@ -33,7 +33,7 @@ class MockTest extends Model
      
        return $sectionsName = DB::table('mock_tests')
                             ->Join('sections', 'mock_tests.section_id', '=', 'sections.id')
-                            ->select('section_id', 'section_name', 'max_question', 'marks', 'medium_of_exam', 'time_allotted','test_id')
+                            ->select('section_id', 'section_name', 'max_question', 'max_time','test_id')
                             ->where('mock_tests.test_name',$test_name)
                             ->get();
                            

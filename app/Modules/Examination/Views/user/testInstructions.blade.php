@@ -39,29 +39,21 @@
                     <tr>
                         <th>Test Name</th>
                         <th>No.of Questions</th>
-                        <th>Marks</th>
-                        <th>Medium of Exam</th>
                         <th>Time Allotted</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $total = 0; ?>
                     @foreach($test as $key=>$value)
                     <tr>                   
                         <td>{{$value->section_name}}</td>
                         <td>{{$value->max_question}}</td>
-                        <td>{{$value->marks}}</td>
-                        <td>{{$value->medium_of_exam}}</td>
-                        <td>{{$value->time_allotted}}</td>
+                        <td>{{$value->max_time." Minutes"}}</td>
                     </tr>
-                    <?php $total += $value->max_question; ?>
                     @endforeach
                     <tr>
                         <td>total</td>
-                        <td>{{ $total }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{ $total_questions }}</td>
+                        <td>{{ $total_time." Minutes" }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -90,3 +82,5 @@
     });
 </script>
 @endsection
+
+

@@ -144,6 +144,13 @@ class ExaminationController extends Controller
         $test_name = ucwords($test_name);
         $test_name = str_replace('-', ' ', $test_name);
         $data['test'] = $this->mochtestObj->selectSectionName($test_name);
+        $total_questions = 0; $total_time = 0;
+        foreach ($data['test'] as $key => $value) {
+            $total_questions +=  $value->max_question;
+            $total_time +=  $value->max_time;
+        }
+        $data['total_time'] = $total_time;
+        $data['total_questions'] = $total_questions;
         return view("Examination::user.testInstructions",$data);
     }
 

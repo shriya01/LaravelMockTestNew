@@ -32,7 +32,8 @@
                                 <label>Section</label>
                                 @foreach($sections as $key)
                                     <input type="checkbox" name="section[]" value="{{$key->id}}">{{$key->section_name}}
-                                    <input type="text" name="max_question[]">
+                                    <input style="width:8%;" type="text" name="max_question[]" placeholder="Max Question">
+                                    <input style="width:8%;" type="text" name="max_time[]" placeholder="Max Time">
                                 @endforeach
                                 @if ($errors->has('section'))
                                 <span class="text-danger" role="alert">
