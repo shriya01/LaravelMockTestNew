@@ -86,4 +86,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
 	Route::get('/downloadPdf', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@generateAndEmailPDF')->name('downloadPdf');
 	//Package
 	Route::get('/packages', '\App\Modules\Package\Controllers\PackageController@index');
+	Route::get('/addPackage/{package_id?}', '\App\Modules\Package\Controllers\PackageController@getPackage')->name('addPackage');
+	Route::post('/addPackage/{package_id?}', '\App\Modules\Package\Controllers\PackageController@postPackage');
 });

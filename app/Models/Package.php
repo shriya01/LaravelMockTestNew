@@ -12,7 +12,7 @@ use DB;
  * @DateOfCreation         10 Dec 2018
  * @ShortDescription       This class handles answer related database queries and operations 
  */
-class Answers extends Model
+class Package extends Model
 {
 
     /**
@@ -21,7 +21,7 @@ class Answers extends Model
      * @var array
      */
     protected $fillable = [
-        'question_id','answer'
+        'package_name','package_type','package_price','package_validity'
     ];
 
     /**
@@ -29,11 +29,8 @@ class Answers extends Model
      * @ShortDescription    This function retrieves the availble answers from database
      * @return              View
      */
-    public function getAnswers($id)
+    public function getPackages()
     {
-        return DB::table('answers')
-               ->join('question_sets', 'answers.question_id', '=', 'question_sets.id')
-               ->where('question_id',$id)
-               ->get();
+        return DB::table('packages')->get();
     }
 }
