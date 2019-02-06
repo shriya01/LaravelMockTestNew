@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuestionImageTable extends Migration
+class CreateDirectionImageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateQuestionImageTable extends Migration
      */
     public function up()
     {
-        Schema::create('question_image', function (Blueprint $table) {
+        Schema::create('direction_image', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('question_id')->unsigned();
+            $table->integer('direction_set_id')->unsigned();
             $table->longtext('image_name');
-            $table->foreign('question_id')->references('id')->on('question_sets');
+            $table->foreign('direction_set_id')->references('id')->on('direction_set');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateQuestionImageTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('question_image');
+        Schema::dropIfExists('direction_image');
     }
 }

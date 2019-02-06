@@ -38,10 +38,6 @@
 								</span>
 								@endif
 							</div>
-							<div>
-								<label>Question Image</label>
-								<input type="file" name="question_image" class="form-control" style="padding-bottom: 2.5%">
-							</div>
 							@for($column="A"; $column <= "E"; $column++)
 							<div class="form-group">
 								<label>Option {{$column}}</label>

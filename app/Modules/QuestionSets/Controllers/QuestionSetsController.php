@@ -113,18 +113,7 @@ class QuestionSetsController extends Controller
                 if(empty($answers)){
                     Answers::create($formData);
                 }
-                if($request->has('question_image'))
-            	{
-            		$file = $request->file('question_image');
-            	 	$fileName =  $file->getClientOriginalName();
-                    $destinationPath = public_path('images');
-                    $uploadedFile = $file->move($destinationPath, $fileName);
-                   	$formData = [
-                		'image_name'=> $fileName,
-                		'question_id'=>$id
-            		];
-            		DB::table('question_image')->insert($formData);
-            	}
+ 
 
 				return redirect()->route('showQuestion',['section_id'=>$request->section_id,'id'=>$request->id,])->with('status','Question Added Successfully');
 			}
