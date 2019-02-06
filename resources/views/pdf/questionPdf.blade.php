@@ -14,7 +14,8 @@
                     @foreach($result as $key)
                     <h5><strong>Section : - {{ $key->section_name}} </strong></h5>
                     <div style="font-size: 12px !important"><strong>
-                        Question : -{{$i}} {!! $key->question !!}</strong>
+                    <img src="{{asset('public/images/'.$key->image_name)}}">
+                    Question : -{{$i}} {!! $key->question !!}</strong>
                     @for($column="A"; $column <= "E"; $column++)
                     <?php 
                     $column_name = 'option_'.$column;

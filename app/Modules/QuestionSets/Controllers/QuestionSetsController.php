@@ -4,7 +4,7 @@ namespace App\Modules\QuestionSets\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionSet;
-use Validator,Crypt,PDF;
+use Validator,Crypt,PDF,DB;
 use App\Models\Answers;
 
 /**
@@ -88,7 +88,9 @@ class QuestionSetsController extends Controller
 		if ($validator->fails()) {
 			return redirect()->back()->withInput()->withErrors($validator->errors());
 		} else {
-			if(in_array($correct_option,$option_array)){
+
+            	
+			if(in_array($correct_option,$option_array)){				
 				$formData = [ 
 					'question' => $request->question,
 					'correct_option_value' => $correct_option,
@@ -111,6 +113,19 @@ class QuestionSetsController extends Controller
                 if(empty($answers)){
                     Answers::create($formData);
                 }
+                if($request->has('question_image'))
+            	{
+            		$file = $request->file('question_image');
+            	 	$fileName =  $file->getClientOriginalName();
+                    $destinationPath = public_path('images');
+                    $uploadedFile = $file->move($destinationPath, $fileName);
+                   	$formData = [
+                		'image_name'=> $fileName,
+                		'question_id'=>$id
+            		];
+            		DB::table('question_image')->insert($formData);
+            	}
+
 				return redirect()->route('showQuestion',['section_id'=>$request->section_id,'id'=>$request->id,])->with('status','Question Added Successfully');
 			}
 			else
@@ -135,8 +150,8 @@ class QuestionSetsController extends Controller
     	$result = $this->questionObj->getQuestions();
         $data['result'] = $result;
         $pdf = PDF::loadView('pdf.questionPdf', $data);
-        $file_path = $pdf->save(public_path('files/receipt.pdf'));
-        $pdf = $pdf->download('receipt.pdf');
+        $file_path = $pdf->save(public_path('files/questionPdf.pdf'));
+        $pdf = $pdf->download('questionPdf.pdf');
         return $pdf;
     }
 }

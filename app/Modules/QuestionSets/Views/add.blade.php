@@ -25,7 +25,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" method="post" action="">
+						<form role="form" method="post" action="" enctype="multipart/form-data">
 							@csrf
 							<input type="hidden" name="id" value="{{$id}}">
 							<input type="hidden" name="section_id" value="{{$section_id}}">
@@ -37,6 +37,10 @@
 									<strong>{{ $errors->first('question') }}</strong>
 								</span>
 								@endif
+							</div>
+							<div>
+								<label>Question Image</label>
+								<input type="file" name="question_image" class="form-control" style="padding-bottom: 2.5%">
 							</div>
 							@for($column="A"; $column <= "E"; $column++)
 							<div class="form-group">

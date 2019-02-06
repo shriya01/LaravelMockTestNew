@@ -19,6 +19,8 @@ class QuestionSet extends Model
     	return DB::table('question_sets')
     	->join('sections', 'question_sets.section_id', '=', 'sections.id')
 		->join('answers', 'answers.question_id', '=', 'question_sets.id')
+        ->leftJoin('question_image', 'question_image.question_id', '=', 'question_sets.id')
+        ->orderBy('question_sets.id', 'desc')
     	->get()->toArray();
     }
 }
