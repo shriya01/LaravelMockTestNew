@@ -29,6 +29,20 @@
                             @csrf
                             @if(isset($id))<input type="hidden" name="id" value="{{$id}}"> @endif
                             <div class="form-group">
+                                <label>Category</label>
+                                <select name="category_name" > 
+                                    <option value="">Select Category</option>
+                                    @foreach($categories as $key)
+                                    <option value="{{$key->id}}">{{$key->category_name}}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('category_name'))
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $errors->first('category_name') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
                                 <label>{{__('Directions::messages.direction_guideline_name')}}</label>
                                 <input class="form-control" name="direction_guideline_name" @if(isset($directions))  value="{{$directions[0]->direction_set_name }}" @endif>
                                 @if ($errors->has('direction_guideline_name') || session()->has('error'))

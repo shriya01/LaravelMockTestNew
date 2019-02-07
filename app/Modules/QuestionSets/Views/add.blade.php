@@ -77,6 +77,17 @@
 								</span>
 								@endif
 							</div>
+							<div>
+								<label>Direction</label>
+								    @if(isset($directions))     
+    <select name="directions">              
+        <option value="">Select Directions</option>
+        @foreach($directions as $key)
+        <option value="{{$key->id}}">{{$key->direction_set_name}}</option>
+        @endforeach
+    </select>
+    @endif
+							</div>
 							<button type="submit" class="btn btn-default">Submit</button>
 						</div>
 					</div>

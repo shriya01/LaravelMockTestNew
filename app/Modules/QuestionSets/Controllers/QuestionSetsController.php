@@ -4,6 +4,8 @@ namespace App\Modules\QuestionSets\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionSet;
+use App\Models\Direction;
+
 use Validator,Crypt,PDF,DB;
 use App\Models\Answers;
 
@@ -17,6 +19,10 @@ use App\Models\Answers;
  */
 class QuestionSetsController extends Controller
 {
+	public function __construct()
+    {
+        $this->directionObj = new Direction;
+    }
 	/**
 	 * @DateOfCreation 		24 Jan 2019
 	 * @ShortDescription	This function displays question list.
@@ -30,6 +36,8 @@ class QuestionSetsController extends Controller
 		$id = Crypt::decrypt($id);
 		$section_id = Crypt::decrypt($section_id);
 		$data['questions'] = QuestionSet::get()->where('section_id',$section_id)->where('category_id',$id);
+
+		$data['directions'] =  $this->directionObj->getdirections(['category_id'=>$id]);
 		return view("QuestionSets::index",$data);
 	}
 
@@ -55,6 +63,7 @@ class QuestionSetsController extends Controller
 	{
 		$data['id'] = $id;
 		$data['section_id'] = $section_id;
+		$data['directions'] =  $this->directionObj->getdirections(['category_id'=>Crypt::decrypt($id) ]);
 		return view("QuestionSets::add",$data);
 	}
 
@@ -88,14 +97,13 @@ class QuestionSetsController extends Controller
 		if ($validator->fails()) {
 			return redirect()->back()->withInput()->withErrors($validator->errors());
 		} else {
-
-            	
 			if(in_array($correct_option,$option_array)){				
 				$formData = [ 
 					'question' => $request->question,
 					'correct_option_value' => $correct_option,
 					'category_id'		=> Crypt::decrypt($request->id),
-					'section_id'=>Crypt::decrypt($request->section_id)
+					'section_id'=>Crypt::decrypt($request->section_id),
+					'direction_set_id'	=> $request->directions
 				];
 				$i=0;
 				for($column="A"; $column <= "E"; $column++){
@@ -103,7 +111,6 @@ class QuestionSetsController extends Controller
 					$formData[$columnName] = $option_array[$i];
 					$i++;
 				}
-
 				$id = QuestionSet::create($formData)->id;
 				 $formData = [
                 'answer'=> $request->answer,

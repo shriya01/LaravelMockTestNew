@@ -4,6 +4,7 @@ namespace App\Modules\Directions\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Direction;
+use App\Models\Category;
 use Crypt,DB,Validator;
 
 /**
@@ -19,6 +20,7 @@ class DirectionsController extends Controller
     public function __construct()
     {
         $this->directionObj = new Direction;
+        $this->categoryObj = new Category;
     }
 
     /**
@@ -28,7 +30,6 @@ class DirectionsController extends Controller
      */
     public function index()
     {
-        
         $data['directions'] = $this->directionObj->getdirections()->toArray();
         return view("Directions::index",$data);
     }
@@ -40,15 +41,15 @@ class DirectionsController extends Controller
      */
     public function getDirection($id = null)
     {
+        $data['categories'] = $this->categoryObj->getCategories()->toArray();
         if(!empty($id))
         {
             $data['id'] = $id;
             $id = Crypt::decrypt($id);
-            $data['directions'] = $this->directionObj->getdirections($id)->toArray();
-  
+            $data['directions'] = $this->directionObj->getdirections(['id'=>$id])->toArray();
             return view("Directions::add",$data);
         }
-        return view("Directions::add");
+        return view("Directions::add",$data);
     }
 
     /**
@@ -60,14 +61,14 @@ class DirectionsController extends Controller
     public function postDirection(Request $request)
     {  
         $rules = array(
+            'category_name'                        => 'required',
             'direction_guideline_name'             => 'required',
-            'direction_guidelines'                   => 'required', 
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return redirect()->back()->withInput()->withErrors($validator->errors());
         } else {
-                $directionSetData = ['direction_set_name' => $request->direction_guideline_name, 'directions' => $request->direction_guidelines];
+                $directionSetData = ['category_id'=>$request->category_name,'direction_set_name' => $request->direction_guideline_name, 'directions' => isset($request->direction_guidelines) ? $request->direction_guidelines : ''];
                 if($request->has('direction_image')){
                         $file = $request->file('direction_image');
                         $fileName =  $file->getClientOriginalName();
@@ -84,7 +85,7 @@ class DirectionsController extends Controller
                             'image_name'=> $fileName,
                             'direction_set_id'=>$id
                         ];
-                        $id = DB::table('direction_image');
+                        $id = DB::table('direction_image')->insert($directionImageData);
 
                     }
                     return redirect('directions')->with('status','Directions Added Successfully');
