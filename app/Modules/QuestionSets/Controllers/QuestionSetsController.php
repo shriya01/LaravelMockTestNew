@@ -36,7 +36,6 @@ class QuestionSetsController extends Controller
 		$id = Crypt::decrypt($id);
 		$section_id = Crypt::decrypt($section_id);
 		$data['questions'] = QuestionSet::get()->where('section_id',$section_id)->where('category_id',$id);
-
 		$data['directions'] =  $this->directionObj->getdirections(['category_id'=>$id]);
 		return view("QuestionSets::index",$data);
 	}
@@ -120,8 +119,6 @@ class QuestionSetsController extends Controller
                 if(empty($answers)){
                     Answers::create($formData);
                 }
- 
-
 				return redirect()->route('showQuestion',['section_id'=>$request->section_id,'id'=>$request->id,])->with('status','Question Added Successfully');
 			}
 			else
@@ -150,4 +147,43 @@ class QuestionSetsController extends Controller
         $pdf = $pdf->download('questionPdf.pdf');
         return $pdf;
     }
+	/**
+	 * @DateOfCreation 		24 Jan 2019
+	 * @ShortDescription	This function displays question list.
+	 * @param 				$id [Section Id]
+	 * @return 				View
+	 */
+	public function showQuestions(Request $request)
+	{
+		$section_id = $request->section_id;
+		$id = $request->category_id;
+
+		$questions = QuestionSet::get()->where('section_id',$section_id)->where('category_id',$id);
+		$data['directions'] =  $this->directionObj->getdirections(['category_id'=>$id]);
+		$output = '';
+		$output .='<table width="50%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                        <tr>
+                    		<th><input type="checkbox" name=""></th>
+                            <th>Question</th>
+                                                </thead><tbody>';
+
+                        if(isset($questions)){                   
+                        	foreach($questions as $key){
+                        		$output.='<tr class="odd gradeX">';
+                        		$output.='<td width="10%"><input type="checkbox" name=""></td>';
+                            $output .= '<td width="90%">'.$key->question.'</td>';
+                            $output.="</tr>";
+                        
+                      }
+                        
+                    }
+                    
+                       
+                    $output.=" </tbody>
+                      </table>";
+			echo $output;
+	}
 }
+
+?>

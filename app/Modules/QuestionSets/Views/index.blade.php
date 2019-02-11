@@ -26,14 +26,6 @@ td>p>span
         {{ session()->get('status') }}
     </p>
     @endif 
-    @if(isset($directions))     
-    <select>              
-        <option value="">Select Directions</option>
-        @foreach($directions as $key)
-        <option value="{{$key->id}}">{{$key->direction_set_name}}</option>
-        @endforeach
-    </select>
-    @endif
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">

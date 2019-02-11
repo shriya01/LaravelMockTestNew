@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
   <div><h1 align="center" width="50%">Other Important Instructions</h1></div>
   <div>
     <h4>General Instructions:</h4>

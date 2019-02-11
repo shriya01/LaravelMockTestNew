@@ -4,20 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDirectionSetTable extends Migration
+class AddMaxMarksToMockTests extends Migration
 {
-    /**
+ /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('direction_set', function (Blueprint $table) {
-            $table->increments('id');
-            $table->longText('direction_set_name');
-            $table->longText('directions');
-            $table->timestamps();
+         Schema::table('mock_tests', function ($table) {
+            $table->integer('max_marks')->after('max_time');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateDirectionSetTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('direction_set');
+        Schema::table('mock_tests', function ($table) {
+            $table->dropColumn('max_marks');
+        });
     }
 }

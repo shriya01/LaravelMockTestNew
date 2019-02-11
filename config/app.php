@@ -152,7 +152,7 @@ return [
          */
         ArtemSchander\L5Modular\ModuleServiceProvider::class,
         Artdarek\OAuth\OAuthServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...

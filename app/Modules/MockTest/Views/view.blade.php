@@ -10,7 +10,7 @@
     <div class="col-lg-12">
         <h3 class="page-header">
             <i class="fa fa-table"></i> {{ __('messages.mock_tests') }}
-            <a class="btn btn-primary pull-right" href=" {{ url('/') }}/addMockTest">{{ __('MockTest::messages.add_mock_test') }}</a>
+            <a class="btn btn-primary pull-right" href=" {{ url('/') }}/addQuestionToMockTest">{{ __('MockTest::messages.add_question_to_mock_test') }}</a>
         </h3>
     </div>
 </div>

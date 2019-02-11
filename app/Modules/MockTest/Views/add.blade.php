@@ -31,9 +31,10 @@
                             <div class="form-group">
                                 <label>Section</label>
                                 @foreach($sections as $key)
-                                    <input type="checkbox" name="section[]" value="{{$key->id}}">{{$key->section_name}}
-                                    <input style="width:8%;" type="text" name="max_question[]" placeholder="Max Question">
-                                    <input style="width:8%;" type="text" name="max_time[]" placeholder="Max Time">
+                                <input type="checkbox" name="section[]" value="{{$key->id}}">{{$key->section_name}}
+                                <input style="width:6%;" type="text" name="max_question[]" placeholder="Max Que">
+                                <input style="width:6%;" type="text" name="max_time[]" placeholder="Max Time">
+                                <input style="width:6%;" type="text" name="max_marks[]" placeholder="Max Marks">
                                 @endforeach
                                 @if ($errors->has('section'))
                                 <span class="text-danger" role="alert">
@@ -52,6 +53,34 @@
                                 @if ($errors->has('examination_name'))
                                 <span class="text-danger" role="alert">
                                     <strong>{{ $errors->first('examination_name') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label>Negative Marking</label>
+                                <select name="negative_marks" > 
+                                    <option value="0">Select Marks</option>
+                                    <option value="0.25">0.25</option>
+                                    <option value="0.33">0.33</option>
+                                    <option value="0.50">0.50</option>
+                                </select>
+                                @if ($errors->has('examination_name'))
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $errors->first('examination_name') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label>Is Switchable</label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="is_switchable" value="1">Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="is_switchable" value="0">No
+                                </label>
+                                @if ($errors->has('section'))
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $errors->first('section') }}</strong>
                                 </span>
                                 @endif
                             </div>
