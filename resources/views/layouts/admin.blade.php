@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <meta name="description" content="">
         <meta name="author" content="">
         <title>Laravel Mock Test Admin</title>
@@ -112,6 +114,9 @@
                             </li>
                             <li>
                                 <a href="{{ url('questions') }}"><i class="fa fa-list-alt fa-fw"></i>{{ __('messages.questions') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('packages') }}"><i class="fa fa-list-alt fa-fw"></i>{{ __('messages.package') }}</a>
                             </li>
                         </ul>
                     </div>

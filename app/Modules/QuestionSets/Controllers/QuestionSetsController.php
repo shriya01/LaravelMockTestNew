@@ -4,7 +4,9 @@ namespace App\Modules\QuestionSets\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionSet;
-use Validator,Crypt,PDF;
+use App\Models\Direction;
+
+use Validator,Crypt,PDF,DB;
 use App\Models\Answers;
 
 /**
@@ -17,6 +19,10 @@ use App\Models\Answers;
  */
 class QuestionSetsController extends Controller
 {
+	public function __construct()
+    {
+        $this->directionObj = new Direction;
+    }
 	/**
 	 * @DateOfCreation 		24 Jan 2019
 	 * @ShortDescription	This function displays question list.
@@ -30,6 +36,7 @@ class QuestionSetsController extends Controller
 		$id = Crypt::decrypt($id);
 		$section_id = Crypt::decrypt($section_id);
 		$data['questions'] = QuestionSet::get()->where('section_id',$section_id)->where('category_id',$id);
+		$data['directions'] =  $this->directionObj->getdirections(['category_id'=>$id]);
 		return view("QuestionSets::index",$data);
 	}
 
@@ -55,6 +62,7 @@ class QuestionSetsController extends Controller
 	{
 		$data['id'] = $id;
 		$data['section_id'] = $section_id;
+		$data['directions'] =  $this->directionObj->getdirections(['category_id'=>Crypt::decrypt($id) ]);
 		return view("QuestionSets::add",$data);
 	}
 
@@ -88,12 +96,13 @@ class QuestionSetsController extends Controller
 		if ($validator->fails()) {
 			return redirect()->back()->withInput()->withErrors($validator->errors());
 		} else {
-			if(in_array($correct_option,$option_array)){
+			if(in_array($correct_option,$option_array)){				
 				$formData = [ 
 					'question' => $request->question,
 					'correct_option_value' => $correct_option,
 					'category_id'		=> Crypt::decrypt($request->id),
-					'section_id'=>Crypt::decrypt($request->section_id)
+					'section_id'=>Crypt::decrypt($request->section_id),
+					'direction_set_id'	=> $request->directions
 				];
 				$i=0;
 				for($column="A"; $column <= "E"; $column++){
@@ -101,7 +110,6 @@ class QuestionSetsController extends Controller
 					$formData[$columnName] = $option_array[$i];
 					$i++;
 				}
-
 				$id = QuestionSet::create($formData)->id;
 				 $formData = [
                 'answer'=> $request->answer,
@@ -135,8 +143,47 @@ class QuestionSetsController extends Controller
     	$result = $this->questionObj->getQuestions();
         $data['result'] = $result;
         $pdf = PDF::loadView('pdf.questionPdf', $data);
-        $file_path = $pdf->save(public_path('files/receipt.pdf'));
-        $pdf = $pdf->download('receipt.pdf');
+        $file_path = $pdf->save(public_path('files/questionPdf.pdf'));
+        $pdf = $pdf->download('questionPdf.pdf');
         return $pdf;
     }
+	/**
+	 * @DateOfCreation 		24 Jan 2019
+	 * @ShortDescription	This function displays question list.
+	 * @param 				$id [Section Id]
+	 * @return 				View
+	 */
+	public function showQuestions(Request $request)
+	{
+		$section_id = $request->section_id;
+		$id = $request->category_id;
+
+		$questions = QuestionSet::get()->where('section_id',$section_id)->where('category_id',$id);
+		$data['directions'] =  $this->directionObj->getdirections(['category_id'=>$id]);
+		$output = '';
+		$output .='<table width="50%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                        <tr>
+                    		<th><input type="checkbox" name=""></th>
+                            <th>Question</th>
+                                                </thead><tbody>';
+
+                        if(isset($questions)){                   
+                        	foreach($questions as $key){
+                        		$output.='<tr class="odd gradeX">';
+                        		$output.='<td width="10%"><input type="checkbox" name=""></td>';
+                            $output .= '<td width="90%">'.$key->question.'</td>';
+                            $output.="</tr>";
+                        
+                      }
+                        
+                    }
+                    
+                       
+                    $output.=" </tbody>
+                      </table>";
+			echo $output;
+	}
 }
+
+?>

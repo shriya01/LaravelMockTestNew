@@ -4,7 +4,8 @@ namespace App\Modules\Directions\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Direction;
-use Crypt,DB;
+use App\Models\Category;
+use Crypt,DB,Validator;
 
 /**
  * DirectionsController Controller
@@ -19,6 +20,7 @@ class DirectionsController extends Controller
     public function __construct()
     {
         $this->directionObj = new Direction;
+        $this->categoryObj = new Category;
     }
 
     /**
@@ -28,7 +30,6 @@ class DirectionsController extends Controller
      */
     public function index()
     {
-        
         $data['directions'] = $this->directionObj->getdirections()->toArray();
         return view("Directions::index",$data);
     }
@@ -40,16 +41,15 @@ class DirectionsController extends Controller
      */
     public function getDirection($id = null)
     {
+        $data['categories'] = $this->categoryObj->getCategories()->toArray();
         if(!empty($id))
         {
-
             $data['id'] = $id;
             $id = Crypt::decrypt($id);
-            $data['directions'] = $this->directionObj->getdirections($id)->toArray();
-  
+            $data['directions'] = $this->directionObj->getdirections(['id'=>$id])->toArray();
             return view("Directions::add",$data);
         }
-        return view("Directions::add");
+        return view("Directions::add",$data);
     }
 
     /**
@@ -60,18 +60,52 @@ class DirectionsController extends Controller
      */
     public function postDirection(Request $request)
     {  
-        $insertData = ['direction_set_name' => $request->direction_guideline_name, 'directions' => $request->direction_guidelines];
-        if(empty($request->id))
-        {
-            $this->directionObj->insertData($insertData);
-            return redirect('directions')->with('status','Directions Added Successfully');
-        }
-        else
-        {
-            $id =  Crypt::decrypt($request->id);
-            $whereArray = ['id'=>$id];
-            $this->directionObj->updateData($insertData,$whereArray);
-            return redirect('directions')->with('status','Directions Updated Successfully');
+        $rules = array(
+            'category_name'                        => 'required',
+            'direction_guideline_name'             => 'required',
+        );
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator->errors());
+        } else {
+                $directionSetData = ['category_id'=>$request->category_name,'direction_set_name' => $request->direction_guideline_name, 'directions' => isset($request->direction_guidelines) ? $request->direction_guidelines : ''];
+                if($request->has('direction_image')){
+                        $file = $request->file('direction_image');
+                        $fileName =  $file->getClientOriginalName();
+                        $destinationPath = public_path('images');
+                        $uploadedFile = $file->move($destinationPath, $fileName);
+                        
+                }
+                if(empty($request->id))
+                {
+                    $id = DB::table('direction_set')->insertGetId($directionSetData);
+                    if(isset($fileName))
+                    {
+                        $directionImageData = [
+                            'image_name'=> $fileName,
+                            'direction_set_id'=>$id
+                        ];
+                        $id = DB::table('direction_image')->insert($directionImageData);
+
+                    }
+                    return redirect('directions')->with('status','Directions Added Successfully');
+                }
+                else
+                {
+                    $id =  Crypt::decrypt($request->id);
+                    $whereArray = ['id'=>$id];
+                    $this->directionObj->updateData($directionSetData,$whereArray);
+                    if(isset($fileName))
+                    {
+                        $directionImageData = [
+                            'image_name'=> $fileName,
+                            'direction_set_id'=>$id
+                        ];
+                        $id = DB::table('direction_image')->update($directionImageData);
+
+                    }
+                    return redirect('directions')->with('status','Directions Updated Successfully');
+                }
         }
     }
 }

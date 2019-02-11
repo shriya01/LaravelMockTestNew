@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\MockTest;
 use App\Models\Section;
+use App\Models\Category;
+
 use App\Models\Examination;
 use Validator,DB;
 
@@ -59,6 +61,8 @@ class MockTestController extends Controller
         $this->mockTestObj = new  MockTest;
         $data['users'] = $this->mockTestObj->getMockTests($test_name);
         $data['mocktest'] = $mocktest;
+                    $data['sections'] = Section::get();
+            $data['examinations'] = Examination::get();
         return view('MockTest::index',$data);
     }
 
@@ -73,9 +77,12 @@ class MockTestController extends Controller
             'test_name'                   => 'required|unique:mock_tests',
             'examination_name'            => 'required',
             'section'                     => 'required',
-            'max_question'                => 'required'  
+            'max_question'                => 'required',
+            'max_time'                    => 'required',
+            'max_marks'                   => 'required',
+            'is_switchable'               => 'required'  
         );
-         if(!empty($id)){
+        if(!empty($id)){
             $rules['test_name']     = 'required|unique:mock_tests,test_name,'.$id.',id';
         }
         $validator = Validator::make($request->all(), $rules);
@@ -84,16 +91,34 @@ class MockTestController extends Controller
         } else {
             $sections = $request->section;
             $max_questions = $request->max_question;
+            $max_time = $request->max_time;
+            $max_marks = $request->max_marks;
             foreach ($sections as $key => $value) {
                 $formData = [
                     'examination_id'=>$request->examination_name,
                     'section_id'    => $value,
                     'max_question'  => $max_questions[$key],
-                    'test_name'     => strtoupper($request->test_name)
+                    'max_time'      => $max_time[$key],
+                    'max_marks'      => $max_marks[$key],
+                    'test_name'     => strtoupper($request->test_name),
+                    'is_switchable'               => $request->is_switchable,
+                    'negative_marks'               => $request->negative_marks
                 ];
                 MockTest::create($formData);
             }
             return redirect('mock-test')->with('status','Mock Test Added Successfully');
         }
+    }
+
+    public function getCategoriesBySection(Request $request)
+    {
+        $id =  $request->id;
+$output = '';
+        $data['sections'] = Category::get()->where('section_id',$id)->toArray();
+         foreach($data['sections'] as $row => $value)
+      {
+          $output .= '<option value="'.$value['id'].'">'.$value['category_name'].'</option>';
+     }
+     echo $output;
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDirectionSetTable extends Migration
+class CreateDirectionImageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateDirectionSetTable extends Migration
      */
     public function up()
     {
-        Schema::create('direction_set', function (Blueprint $table) {
+        Schema::create('direction_image', function (Blueprint $table) {
             $table->increments('id');
-            $table->longText('direction_set_name');
-            $table->longText('directions');
+            $table->integer('direction_set_id')->unsigned();
+            $table->longtext('image_name');
+            $table->foreign('direction_set_id')->references('id')->on('direction_set');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateDirectionSetTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('direction_set');
+        Schema::dropIfExists('direction_image');
     }
 }

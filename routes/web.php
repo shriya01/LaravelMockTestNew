@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('profile', '\App\Modules\Profile\Controllers\ProfileController@postProfileData');
 	Route::get('exams', '\App\Modules\Examination\Controllers\ExaminationController@getExamsListUserSide');
 	Route::get('/testInstructions/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@testInstructions')->name('testInstructions');
-	Route::get('/importantInstructions/{examination_id?}/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@importantInstructions')->name('importantInstructions');
+	Route::post('/importantInstructions', '\App\Modules\Examination\Controllers\ExaminationController@importantInstructions')->name('importantInstructions');
 	Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@showTest')->name('showTest');
 });
 
@@ -83,6 +83,14 @@ Route::group(['middleware' => ['auth','admin']], function () {
 	//Directions
 	Route::get('/directions/{id?}', '\App\Modules\Directions\Controllers\DirectionsController@index')->name('directions');
 	Route::get('/addDirectionGuidelines/{id?}', '\App\Modules\Directions\Controllers\DirectionsController@getDirection')->name('addDirectionGuidelines');
+	Route::post('/addDirectionGuidelines/{id?}', '\App\Modules\Directions\Controllers\DirectionsController@postDirection');
 	Route::get('/downloadPdf', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@generateAndEmailPDF')->name('downloadPdf');
+	//Package
+	Route::get('/packages', '\App\Modules\Package\Controllers\PackageController@index');
+	Route::get('/addPackage/{package_id?}', '\App\Modules\Package\Controllers\PackageController@getPackage')->name('addPackage');
+	Route::post('/addPackage/{package_id?}', '\App\Modules\Package\Controllers\PackageController@postPackage');
 
+	Route::post('/getCategoriesBySection', '\App\Modules\MockTest\Controllers\MockTestController@getCategoriesBySection')->name('getCategoriesBySection');
+	Route::post('/showQuestions', '\App\Modules\MockTest\Controllers\MockTestController@showQuestions')->name('showQuestions');
+		Route::post('/showQuestions', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@showQuestions')->name('showQuestions');
 });

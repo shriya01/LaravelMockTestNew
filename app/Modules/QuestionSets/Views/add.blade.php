@@ -25,7 +25,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" method="post" action="">
+						<form role="form" method="post" action="" enctype="multipart/form-data">
 							@csrf
 							<input type="hidden" name="id" value="{{$id}}">
 							<input type="hidden" name="section_id" value="{{$section_id}}">
@@ -76,6 +76,17 @@
 									<strong>{{ $errors->first('answer') }}</strong>
 								</span>
 								@endif
+							</div>
+							<div>
+								<label>Direction</label>
+								    @if(isset($directions))     
+								    <select name="directions">              
+								        <option value="">Select Directions</option>
+								        @foreach($directions as $key)
+								        <option value="{{$key->id}}">{{$key->direction_set_name}}</option>
+								        @endforeach
+								    </select>
+								    @endif
 							</div>
 							<button type="submit" class="btn btn-default">Submit</button>
 						</div>

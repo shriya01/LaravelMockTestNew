@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMarksToSectionsTable extends Migration
+class AddMaxMarksToMockTests extends Migration
 {
-    /**
+ /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::table('sections', function (Blueprint $table) {
-            $table->integer('marks')->nullable();
+         Schema::table('mock_tests', function ($table) {
+            $table->integer('max_marks')->after('max_time');
         });
     }
 
@@ -25,8 +25,8 @@ class AddMarksToSectionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('sections', function (Blueprint $table) {
-            //
+        Schema::table('mock_tests', function ($table) {
+            $table->dropColumn('max_marks');
         });
     }
 }
