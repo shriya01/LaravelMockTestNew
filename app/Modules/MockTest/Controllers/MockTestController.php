@@ -139,15 +139,13 @@ class MockTestController extends Controller
     public function showQuestionsByCategory(Request $request)
     {
         $section_id = $request->section_id;
-        $id = $request->category_id;
-        $questions = QuestionSet::get()->where('section_id',$section_id)->where('category_id',$id);
-        $data['directions'] =  $this->directionObj->getdirections(['category_id'=>$id]);
+        $questions = QuestionSet::get()->where('section_id',$section_id);
         $output = '';
-        $output .='<button id="ques">Add Selected Question</button>
-        <table width="50%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+        $output .='<button id="ques">Add Selected Question</button><hr/>
+        <table class="table table-striped table-bordered table-hover" id="dataTables-example2">
         <thead>
         <tr>
-        <th></th>
+        <th><input type="checkbox" class="checkall"></th>
         <th>Question</th>
         </thead><tbody>';
         if(isset($questions)){                   
@@ -173,13 +171,23 @@ class MockTestController extends Controller
     public function addQuestions(Request $request)
     {
         $questions = $request->questions;
-        $questions_array =  (explode(" ",$questions));
-        $questions_json =  json_encode($questions_array);
+        $questions_array = (explode(" ",$questions));
+        $questions_json = json_encode($questions_array);
         $formData = [
                       'test_name' =>$request->test_name,
                       'questions' => $questions_json 
                     ];
-        $request->section_id;
-        MockTest::where(['test_name'=>$request->test_name,'section_id'=>$request->section_id])->update($formData);
+        $section_id =  $request->section_id;
+                $mock_tests = MockTest::where(['test_name'=>$request->test_name,'section_id'=>$request->section_id])->get()->toArray();
+        $max_question = $mock_tests[0]['max_question'];
+        if(count($questions_array) == $max_question)
+        {
+            MockTest::where(['test_name'=>$request->test_name,'section_id'=>$request->section_id])->update($formData);
+        }
+        else
+        {
+            echo count($questions_array);
+            echo "please add".$max_question."questions";
+        }
     }
 }

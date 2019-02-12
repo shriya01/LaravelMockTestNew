@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/testInstructions/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@testInstructions')->name('testInstructions');
 	Route::post('/importantInstructions', '\App\Modules\Examination\Controllers\ExaminationController@importantInstructions')->name('importantInstructions');
 	Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@showTest')->name('showTest');
+	Route::post('/loadquestion', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestions')->name('loadQuestion');
 });
 
 Route::group(['middleware' => ['auth','admin']], function () {

@@ -170,20 +170,18 @@ class ExaminationController extends Controller
         <div class="panel-body">
         <h4><b>Read the following Instruction carefully:</b></h4>
         <ul>
-        <li>This test comprises of multiple-choice questions.</li>
-        <li>Each question will have only one of the available options as the correct answer.</li>
-        <li>You are advised not to close the browser window before submitting the test.</li>
-        <li>In case, if the test does not load completely or becomes unresponsive, click on browser refresh button to reload.</li>
+         <li><h4>This test comprises of multiple-choice questions.</h4></li>
+        <li><h4>Each question will have only one of the available options as the correct answer.</h4></li>
+        <li><h4>You are advised not to close the browser window before submitting the test.</h4></li>
+        <li><h4>In case, if the test does not load completely or becomes unresponsive, click on browser refresh button to reload.</h4></li>
         </ul>
-
         <h4><b>Marking Scheme:</b></h4>
         <ul>
-        <li>1 mark(s) will be awarded for each correct answer.</li>
-        <li>0.25 mark(s) will be deducted for every wrong answer.</li>
-        <li>No marks will be deducted/awarded for un-attempted questions</li>
+        <li><h4>1 mark(s) will be awarded for each correct answer.</h4></li>
+        <li><h4>0.25 mark(s) will be deducted for every wrong answer.</h4></li>
+        <li><h4>No marks will be deducted/awarded for un-attempted questions</h4></li>
         </ul>
-
-        <p>
+        <h5>
         <b>Choose your default Language</b>
         <select id="drop">
         <option value="">Select your Language</option>
@@ -191,11 +189,20 @@ class ExaminationController extends Controller
         <option value="hindi"> Hindi</option>
         </select>
         <span>Please note that all question will appear in your default language. This language can not be changed after-words.</span>
-        </p>
-        <p class="pad10">
+        </h5>
+        <h5 class="pad10">
         <input type="checkbox" name="" value="" id="checkbeforeexam" class="checkboxset">&nbsp; I have read and understood all the instructions. I understand that using unfair means of any sort for any advantage will lead to immediate disqualification. The decision of ixambee.com will be final in these matters.
-        </p>
+        </h5>
+        <a href="#" class="pull-left btn btn-primary  btn-sm mr-2" align="left"><<--Previous</a>
+        <a id="loadQuestion" class="pull-right btn btn-primary  btn-sm mr-2" align="right">I an ready to begin--->>></a>
         </div>
+       
         ';
     } 
+
+
+    public function loadQuestions()
+    {
+        echo "loadTest";
+    }
 }

@@ -13,22 +13,12 @@
             <a class="btn btn-primary pull-right" id="add">{{ __('MockTest::messages.add_question_to_mock_test') }}</a>
         </h3>
     </div>
-    <form class="form-inline" action="/action_page.php">
-        <div class="form-group">
-            <select name="section_name" id="section_name"> 
-                <option value="">Select Section</option>
-                @foreach($sections as $key)
-                <option value="{{$key->id}}">{{$key->section_name}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <select name="category_name" id="category_name"> 
-                <option value="">Select Categories</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form> 
+    <select name="section_name" id="section_name"> 
+            <option value="">Select Section</option>
+        @foreach($sections as $key)
+            <option value="{{$key->id}}">{{$key->section_name}}</option>
+        @endforeach
+    </select>
     <hr />
     <div class="row">
         @if(session()->has('status'))
@@ -67,8 +57,8 @@
                 </div>
             </div>
         </div>
-        
-        <div id="questions" class="col-sm-6"></div>
+        <div id="questions" class="col-sm-6">
+        </div>
     </div> 
 </div>
 @endsection
@@ -86,32 +76,7 @@
         });
         $('#section_name').change(function(){
             var id = ($(this).val());
-            jQuery.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            jQuery.ajax({
-                url: "{{ route('getCategoriesBySection') }}",
-                method: 'post',
-                data: { 
-                    id: id
-                },
-                success: function(result) {
-                    $('select[name="category_name"]').empty();
-                    $('select[name="category_name"]').append(result);   
-                },
-                error:function(xhr)
-                {
-                    console.log(xhr);
-                }
-            });
-
-        });
-        $('#category_name').change(function(){
-            var id = ($(this).val());
             var section_id =  $('#section_name').val();
-            var category_id = $('#category_name').val();
             jQuery.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -122,11 +87,13 @@
                 method: 'post',
                 data:{
                     section_id:section_id,
-                    category_id:category_id,
                 },
                 success: function(result) {
                     $('#questions').empty();
                     $('#questions').append(result);   
+                    $('#dataTables-example2').DataTable({
+                responsive: true
+                });
                 },
                 error:function(xhr)
                 {
@@ -134,6 +101,10 @@
                 }
             });
         });
+        $("#questions").on('click', 'input:checkbox[class=checkall]', function () {
+                $('.check').prop('checked', $(this).prop('checked'));
+            });
+
         $("#questions").on('click', '#ques', function () {
             var questions = [];
             $.each($("input:checkbox[class=check]:checked"), function(){            
@@ -141,9 +112,8 @@
             });
             questions = questions.join(", ");
             var test_name = "{{$test_name}}";
-                        var section_id =  $('#section_name').val();
+            var section_id =  $('#section_name').val();
             var category_id = $('#category_name').val();
-
             jQuery.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -166,6 +136,7 @@
                     console.log(xhr);
                 }
             });
+                    
         });
     });
 </script>
