@@ -92,5 +92,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
 
 	Route::post('/getCategoriesBySection', '\App\Modules\MockTest\Controllers\MockTestController@getCategoriesBySection')->name('getCategoriesBySection');
 	Route::post('/showQuestions', '\App\Modules\MockTest\Controllers\MockTestController@showQuestions')->name('showQuestions');
-		Route::post('/showQuestions', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@showQuestions')->name('showQuestions');
+		Route::post('/showQuestions', '\App\Modules\MockTest\Controllers\MockTestController@showQuestionsByCategory')->name('showQuestions');
+		Route::post('/addQuestions', '\App\Modules\MockTest\Controllers\MockTestController@addQuestions')->name('addQuestions');
 });
