@@ -13,7 +13,6 @@
             <a class="btn btn-primary pull-right" id="add">{{ __('MockTest::messages.add_question_to_mock_test') }}</a>
         </h3>
     </div>
-</div>
     <form class="form-inline" action="/action_page.php">
         <div class="form-group">
             <select name="section_name" id="section_name"> 
@@ -31,49 +30,46 @@
         <button type="submit" class="btn btn-default">Submit</button>
     </form> 
     <hr />
-<div class="row">
-    @if(session()->has('status'))
-    <p class="col-md-12 alert alert-success notify_msg">
-        {{ session()->get('status') }}
-    </p>
-    @endif
-</div>
+    <div class="row">
+        @if(session()->has('status'))
+        <p class="col-md-12 alert alert-success notify_msg">
+            {{ session()->get('status') }}
+        </p>
+        @endif
+    </div>
     <div class="row col-sm-12">
-
-    <div class="col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Mock Test Table
-            </div>
-            <div class="panel-body">
-                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                    <thead>
-                        <tr>
-                            <th>Section Name</th>
-                            <th>Max Question</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(isset($users))                   
-                        @foreach($users as $key)
-                        <tr class="odd gradeX">
-                            <td>{{$key->section_name}}</td>
-                            <td class="text-center">
-                                {{$key->max_question}}
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Mock Test Table
+                </div>
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Section Name</th>
+                                <th>Max Question</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(isset($users))                   
+                            @foreach($users as $key)
+                            <tr class="odd gradeX">
+                                <td>{{$key->section_name}}</td>
+                                <td class="text-center">
+                                    {{$key->max_question}}
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-                <div id="questions" class="col-sm-6">
         
-    </div>
-        </div> 
-
+        <div id="questions" class="col-sm-6"></div>
+    </div> 
 </div>
 @endsection
 @section('scripts')
@@ -110,17 +106,17 @@
                     console.log(xhr);
                 }
             });
-        
+
         });
         $('#category_name').change(function(){
             var id = ($(this).val());
+            var section_id =  $('#section_name').val();
+            var category_id = $('#category_name').val();
             jQuery.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            var section_id =  $('#section_name').val();
-                        var category_id = $('#category_name').val();
             jQuery.ajax({
                 url: "{{ route('showQuestions') }}",
                 method: 'post',
@@ -137,7 +133,39 @@
                     console.log(xhr);
                 }
             });
-        
+        });
+        $("#questions").on('click', '#ques', function () {
+            var questions = [];
+            $.each($("input:checkbox[class=check]:checked"), function(){            
+                questions.push($(this).val());
+            });
+            questions = questions.join(", ");
+            var test_name = "{{$test_name}}";
+                        var section_id =  $('#section_name').val();
+            var category_id = $('#category_name').val();
+
+            jQuery.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            jQuery.ajax({
+                url: "{{ route('addQuestions') }}",
+                method: 'post',
+                data:{
+                    test_name:test_name,
+                    questions:questions,
+                    section_id:section_id,
+                    category_id:category_id,
+                },
+                success: function(result) {
+                  console.log(result);
+                },
+                error:function(xhr)
+                {
+                    console.log(xhr);
+                }
+            });
         });
     });
 </script>
