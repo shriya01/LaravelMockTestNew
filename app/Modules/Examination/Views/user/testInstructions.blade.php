@@ -92,29 +92,49 @@ h4
                 },
                 error:function(xhr)
                 {
-                    console.log(xhr);
+                    alert('Sorry for the incovenice. something went wrong please try again later');
                 }
             });
         });
         $(".container").on('click', '#loadQuestion', function () {
-            jQuery.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            jQuery.ajax({
-                url: "{{ route('loadQuestion') }}",
-                type: 'post',
-                success: function(result) {
-                    $('#question').html(result);
-                    $('#instruction').hide();
-                },
-                error:function(xhr)
-                {
-                    console.log(xhr);
-                }
-            });
+            var id = $("#drop").val();
+            var check = $('input[type="checkbox"]').is(':checked');
+            var test_name = '{{$test_name}}';
+            if(id && check)
+            {
+                jQuery.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                jQuery.ajax({
+                    url: "{{ route('loadQuestion') }}",
+                    type: 'post',
+                    data:{test_name:test_name},
+                    success: function(result) {
+                        $('#question').html(result);
+                        $('#instruction').hide();
+                    },
+                    error:function(xhr)
+                    {
+                        console.log(xhr);
+                    }
+                });
+            }
+            else if(id == '')
+            {
+                alert('please select language');
+            }
+            else{
+                alert('please accept terms');
+            }
         });
+
+        $(".container").on('click', '.question_switch', function () {
+            var id = $(this).val();
+            console.log(id);
+        });
+        
     });
 </script>
 @endsection

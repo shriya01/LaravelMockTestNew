@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Examination;
 use Crypt,Exception;
 use App\Models\MockTest;
-use Validator,DB;
+use App\Models\QuestionSet;
+
+use Validator,DB,Carbon;
 
 /**
 * ExaminationController
@@ -141,6 +143,7 @@ class ExaminationController extends Controller
     */
     public function testInstructions($test_name)
     {
+
         $test_name = ucwords($test_name);
         $test_name = str_replace('-', ' ', $test_name);
         $data['test'] = $this->mochtestObj->selectMockTestData($test_name);
@@ -153,7 +156,7 @@ class ExaminationController extends Controller
         $data['total_time'] = $total_time;
         $data['total_questions'] = $total_questions;
         $data['total_marks'] = $total_marks;
-
+        $data['test_name'] = strtoupper($test_name);
         return view("Examination::user.testInstructions",$data);
     }
 
@@ -200,9 +203,32 @@ class ExaminationController extends Controller
         ';
     } 
 
-
-    public function loadQuestions()
+    /**
+     * @DateOfCreation      13 Feb 2019
+     * @ShortDescription    This function displays list of question of the examination
+     * @param               $id
+     * @return              View
+     */
+    public function loadQuestions(Request $request)
     {
-        echo "loadTest";
+        $test_name =  $request->test_name;
+        $mock_tests = MockTest::get()->where('test_name',$test_name);
+        foreach ($mock_tests as $key => $value){
+            $questions =  $value->questions;
+            $questions = json_decode($questions,true);
+            foreach ($questions as $key => $value) {
+                $questions_array = QuestionSet::get()->where('id',$value)->toArray();
+                $key_new =  $key+1;
+                $output  = '';
+                $output .= "<button style='width:50px;' type='button' class='btn btn-sm btn-default question_switch' value=".$value.">$key_new</button>";
+                if( $key%5 == 0 )
+                {
+                   echo "<br />";                                    
+                }
+                echo $output;
+
+            }
+            die;
+        }
     }
 }

@@ -23,12 +23,13 @@ class QuestionSetsController extends Controller
 	{
 		$this->directionObj = new Direction;
 	}
+	
 	/**
-	* @DateOfCreation 		24 Jan 2019
-	* @ShortDescription	This function displays question list.
-	* @param 				$id [Section Id]
-	* @return 				View
-	*/
+	 * @DateOfCreation 		24 Jan 2019
+	 * @ShortDescription	This function displays question list.
+	 * @param 				$id [Section Id]
+	 * @return 				View
+	 */
 	public function index($section_id,$id)
 	{
 		$data['id'] = $id;
@@ -41,11 +42,11 @@ class QuestionSetsController extends Controller
 	}
 
 	/**
-	* @DateOfCreation 		24 Jan 2019
-	* @ShortDescription	This function displays question list.
-	* @param 				$id [Section Id]
-	* @return 				View
-	*/
+	 * @DateOfCreation 		24 Jan 2019
+	 * @ShortDescription	This function displays question list.
+	 * @param 				$id [Section Id]
+	 * @return 				View
+	 */
 	public function questions()
 	{
 		$data['questions'] = QuestionSet::get();
@@ -53,11 +54,11 @@ class QuestionSetsController extends Controller
 	}
 
 	/**
-	* @DateOfCreation 		24 Jan 2019
-	* @ShortDescription	This function displays a form to add question
-	* @param 				$id [Section Id]
-	* @return 				View
-	*/
+	 * @DateOfCreation 		24 Jan 2019
+	 * @ShortDescription	This function displays a form to add question
+	 * @param 				$id [Section Id]
+	 * @return 				View
+	 */
 	public function getQuestion($id,$section_id)
 	{
 		$data['id'] = $id;
@@ -67,11 +68,11 @@ class QuestionSetsController extends Controller
 	}
 
 	/**
-	* @DateOfCreation 		24 Jan 2019
-	* @ShortDescription	This function handles the submit event of add question form 
-	* @param 				Request $request
-	* @return 				Response
-	*/
+	 * @DateOfCreation 		24 Jan 2019
+	 * @ShortDescription	This function handles the submit event of add question form 
+	 * @param 				Request $request
+	 * @return 				Response
+	 */
 	public function postQuestion(Request $request)
 	{
 		$option_array = [];
@@ -129,14 +130,14 @@ class QuestionSetsController extends Controller
 	}
 
 	/**
-	* @DateOfCreation    17 oct 2018
-	* @ShortDescription  This function generate pdf send email receipt and provide download
-	*                    and open option depends on operating system
-	* @param integer     $flat_number [flat number]
-	* @param integer     $month [month]
-	* @param integer     $email_send [whether to send email or not,default not send]
-	* @return            Response
-	*/
+	 * @DateOfCreation    17 oct 2018
+	 * @ShortDescription  This function generate pdf send email receipt and provide download
+	 *                    and open option depends on operating system
+	 * @param integer     $flat_number [flat number]
+	 * @param integer     $month [month]
+	 * @param integer     $email_send [whether to send email or not,default not send]
+	 * @return            Response
+	 */
 	public function generateAndEmailPDF()
 	{
 		$this->questionObj = new QuestionSet;
@@ -147,7 +148,5 @@ class QuestionSetsController extends Controller
 		$pdf = $pdf->download('questionPdf.pdf');
 		return $pdf;
 	}
-
-
 }
 
