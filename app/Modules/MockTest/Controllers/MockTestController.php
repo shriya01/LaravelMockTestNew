@@ -164,7 +164,7 @@ class MockTestController extends Controller
 
     /**
      * @DateOfCreation       24 Jan 2019
-     * @ShortDescription This function displays question list.
+     * @ShortDescription     This function displays question list.
      * @param                $id [Section Id]
      * @return               View
      */
