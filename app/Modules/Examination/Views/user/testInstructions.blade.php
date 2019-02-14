@@ -19,9 +19,10 @@ h4
 </style>
 @endsection
 @section('content')
-<div class="container">
+<div class="container-fluid" id="container">
     <div id="question">
-
+        <div class="col-sm-2 pull-right" id="questions_switch"></div>
+         <div class="col-sm-10 pull-left" id="question_panel"></div>
     </div>
     <div class="panel panel-info" id="instruction">
         <div class="panel-heading">General Instructions:</div>
@@ -96,7 +97,10 @@ h4
                 }
             });
         });
-        $(".container").on('click', '#loadQuestion', function () {
+        function loadSection(test_name,section_id) {
+            console.log(test_name+section_id);
+        }
+        $("#container").on('click', '#loadQuestion', function () {
             var id = $("#drop").val();
             var check = $('input[type="checkbox"]').is(':checked');
             var test_name = '{{$test_name}}';
@@ -112,8 +116,8 @@ h4
                     type: 'post',
                     data:{test_name:test_name},
                     success: function(result) {
-                        $('#question').html(result);
-                        $('#instruction').hide();
+                        $("#instruction").empty().hide();
+                        $("#questions_switch").html(result);
                     },
                     error:function(xhr)
                     {
@@ -130,11 +134,28 @@ h4
             }
         });
 
-        $(".container").on('click', '.question_switch', function () {
+        $("#container").on('click', '.question_switch', function () {
             var id = $(this).val();
-            console.log(id);
+            var desired = id.replace(/[^\w\s]/gi, '')
+            jQuery.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                jQuery.ajax({
+                    url: "{{ route('loadQuestionByID') }}",
+                    type: 'post',
+                    data:{id:id},
+                    success: function(result) {
+                        $("#instruction").empty().hide();
+                        $("#question_panel").html(result);
+                    },
+                    error:function(xhr)
+                    {
+                        console.log(xhr);
+                    }
+                });
         });
-        
     });
 </script>
 @endsection

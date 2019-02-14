@@ -71,7 +71,7 @@ class DirectionsController extends Controller
                 $directionSetData = ['category_id'=>$request->category_name,'direction_set_name' => $request->direction_guideline_name, 'directions' => isset($request->direction_guidelines) ? $request->direction_guidelines : ''];
                 if($request->has('direction_image')){
                         $file = $request->file('direction_image');
-                        $fileName =  $file->getClientOriginalName();
+                        $fileName =  $file->getClientOriginalName().date('y-m-d');
                         $destinationPath = public_path('images');
                         $uploadedFile = $file->move($destinationPath, $fileName);
                         
@@ -99,10 +99,17 @@ class DirectionsController extends Controller
                     {
                         $directionImageData = [
                             'image_name'=> $fileName,
-                            'direction_set_id'=>$id
                         ];
-                        $id = DB::table('direction_image')->update($directionImageData);
-
+                        $result = DB::table('direction_image')->where('direction_set_id',$id)->get();
+                        if(count($result) > 0)
+                        {
+                            $id = DB::table('direction_image')->update($directionImageData);
+                        }
+                        else
+                        {   
+                            $directionImageData['direction_set_id'] = $id;
+                            $id = DB::table('direction_image')->insert($directionImageData);
+                        }
                     }
                     return redirect('directions')->with('status','Directions Updated Successfully');
                 }
