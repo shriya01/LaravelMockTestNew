@@ -21,6 +21,12 @@
     <!-- Styles -->
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
     @yield('style')
+    <style type="text/css">
+        span
+        {
+            color:black !important; 
+        }
+    </style>
 </head>
 <body>
     <div id="app">

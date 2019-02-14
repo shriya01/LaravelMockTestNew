@@ -16,7 +16,7 @@ td>p>span
     <div class="col-lg-12">
         <h3 class="page-header">
             <i class="fa fa-table"></i> Questions
-            <a class="btn btn-primary pull-right" href=" {{ url('/') }}/addQuestion/{{$id}}/{{$section_id}}">Add Question</a>
+            <a class="btn btn-primary pull-right" href="{{ url('/') }}/addQuestion/{{$id}}/{{$section_id}}">Add Question</a>
         </h3>
     </div>
 </div>

@@ -23,21 +23,21 @@ class ExaminationController extends Controller
 {
 
     /**
-    * @DateOfCreation      26 nov 2018
-    * @ShortDescription    Create a new controller instance.
-    *
-    * @return void
-    */
+     * @DateOfCreation      31 January 2019
+     * @ShortDescription    Create a new controller instance.
+     * @return void
+     */
     public function __construct()
     {
         $this->mochtestObj = new MockTest();
         $this->questionsSetObj = new QuestionSet;
     }
+
     /**
-    * @DateOfCreation         31 January 2019
-    * @ShortDescription       This function loads the list of available examinations admin side
-    * @return                 View
-    */
+     * @DateOfCreation         31 January 2019
+     * @ShortDescription       This function loads the list of available examinations admin side
+     * @return                 View
+     */
     public function getExaminationList()
     {
         $data['examinations']= Examination::get()->where('is_deleted',2)->toArray();
@@ -45,10 +45,10 @@ class ExaminationController extends Controller
     }
 
     /**
-    * @DateOfCreation         31 January 2019
-    * @ShortDescription       This function loads the list of available examinations user side
-    * @return                 View
-    */
+     * @DateOfCreation         31 January 2019
+     * @ShortDescription       This function loads the list of available examinations user side
+     * @return                 View
+     */
     public function getExamsListUserSide()
     {
         $data['examinations']= Examination::get()->toArray();
@@ -56,11 +56,11 @@ class ExaminationController extends Controller
     }
 
     /**
-    * @DateOfCreation      31 January 2019
-    * @ShortDescription    This function displays the form to add examination
-    * @param               $id
-    * @return              View
-    */
+     * @DateOfCreation      31 January 2019
+     * @ShortDescription    This function displays the form to add examination
+     * @param               $id
+     * @return              View
+     */
     public function getExamination($id=NULL)
     {
         if (!empty($id)) {
@@ -73,12 +73,12 @@ class ExaminationController extends Controller
     }
 
     /**
-    * @DateOfCreation      31 January 2019
-    * @ShortDescription    This function handles add examination form submission
-    * @param               Request $request Array containing request data
-    * @param               $id
-    * @return              View
-    */
+     * @DateOfCreation      31 January 2019
+     * @ShortDescription    This function handles add examination form submission
+     * @param               Request $request Array containing request data
+     * @param               $id
+     * @return              View
+     */
     public function postExamination(Request $request,$id=NULL)
     {
         $rules = array(
@@ -112,11 +112,11 @@ class ExaminationController extends Controller
     }
 
     /**
-    * @DateOfCreation      31 January 2019
-    * @ShortDescription    This function displays the examination detail of specified id
-    * @param               $id
-    * @return              View
-    */
+     * @DateOfCreation      31 January 2019
+     * @ShortDescription    This function displays the examination detail of specified id
+     * @param               $id
+     * @return              View
+     */
     public function show($id)
     {
         $id = Crypt::decrypt($id);
@@ -125,11 +125,11 @@ class ExaminationController extends Controller
     }
 
     /**
-    * @DateOfCreation      31 January 2019
-    * @ShortDescription    This function displays list of test of the examination
-    * @param               $id
-    * @return              View
-    */
+     * @DateOfCreation      31 January 2019
+     * @ShortDescription    This function displays list of test of the examination
+     * @param               $id
+     * @return              View
+     */
     public function showTest($id)
     {
         $data['test'] = DB::table('mock_tests')->distinct('test_name')->select('test_name','examination_id')->get();
@@ -137,14 +137,13 @@ class ExaminationController extends Controller
     } 
 
     /**
-    * @DateOfCreation      1 January 2019
-    * @ShortDescription    This function displays list of test of the examination
-    * @param               $id
-    * @return              View
-    */
+     * @DateOfCreation      1 January 2019
+     * @ShortDescription    This function displays list of test of the examination
+     * @param               $id
+     * @return              View
+     */
     public function testInstructions($test_name)
     {
-
         $test_name = ucwords($test_name);
         $test_name = str_replace('-', ' ', $test_name);
         $data['test'] = $this->mochtestObj->selectMockTestData($test_name);
@@ -162,11 +161,11 @@ class ExaminationController extends Controller
     }
 
     /**
-    * @DateOfCreation      1 January 2019
-    * @ShortDescription    This function displays list of test of the examination
-    * @param               $id
-    * @return              View
-    */
+     * @DateOfCreation      1 January 2019
+     * @ShortDescription    This function displays list of test of the examination
+     * @param               $id
+     * @return              View
+     */
     public function importantInstructions()
     {
         echo '
@@ -231,12 +230,26 @@ class ExaminationController extends Controller
         }
     }
 
-
+    /**
+     * @DateOfCreation      14 Feb 2019
+     * @ShortDescription    This function loads the specified question
+     * @param               Request $request s
+     * @return              View
+     */
     public function loadQuestionByID(Request $request)
     {
         $id = $request->id;
-        $data['questions'] = $this->questionsSetObj->getQuestionsById($id);
-        echo "<pre>";
-        print_r($data['questions']);
+        $questions = $this->questionsSetObj->getQuestionsById($id);
+        foreach ($questions as $key => $value) {
+            # code...
+            $output = '';
+            $output.= '<h3>Directions : '.$value->direction_set_name.'</h3>';
+            $output.= '<h4>Question : '.$value->question.'</h4>';
+            for($column="A"; $column <= "E"; $column++){
+                $columnName = "option_".$column;        
+                $output.= '<input type="checkbox">'.$value->$columnName.'</input><br/>';
+            }
+            echo $output;
+        }
     }
 }

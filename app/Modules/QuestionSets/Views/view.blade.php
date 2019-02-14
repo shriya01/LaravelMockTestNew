@@ -58,7 +58,9 @@ td>p>span
                                 <td width="9%">{{ $key->$column_name}}</td>
                             @endfor
                             <td>{{$key->correct_option_value}}</td>
-                            <td><a class="btn btn-primary" data-toggle="tooltip" title="View Answer Explaination" href="{{ route('addHint',Crypt::encrypt($key->id)) }}"><span class="fa fa-eye"></span></a></td>
+                            <td><a class="btn btn-primary" data-toggle="tooltip" title="View Answer Explaination" href="{{ route('addHint',Crypt::encrypt($key->id)) }}"><span class="fa fa-eye"></span></a>
+                            </a>
+                            </td>
                         </tr>
                         @endforeach
                         @endif
