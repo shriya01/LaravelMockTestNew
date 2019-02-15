@@ -43,6 +43,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('/importantInstructions', '\App\Modules\Examination\Controllers\ExaminationController@importantInstructions')->name('importantInstructions');
 	Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@showTest')->name('showTest');
 	Route::post('/loadquestion', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestions')->name('loadQuestion');
+	Route::post('/loadQuestionByID', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestionByID')->name('loadQuestionByID');
+	
 });
 
 Route::group(['middleware' => ['auth','admin']], function () {
@@ -95,4 +97,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
 	Route::post('/showQuestions', '\App\Modules\MockTest\Controllers\MockTestController@showQuestions')->name('showQuestions');
 		Route::post('/showQuestions', '\App\Modules\MockTest\Controllers\MockTestController@showQuestionsByCategory')->name('showQuestions');
 		Route::post('/addQuestions', '\App\Modules\MockTest\Controllers\MockTestController@addQuestions')->name('addQuestions');
+
+
 });

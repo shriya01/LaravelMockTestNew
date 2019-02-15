@@ -25,4 +25,17 @@ class QuestionSet extends Model
     	->get()->toArray();
 
     }
+
+    public function getQuestionsById($id)
+    {
+        return  DB::table('question_sets')
+        ->join('sections', 'question_sets.section_id', '=', 'sections.id')
+        ->join('answers', 'answers.question_id', '=', 'question_sets.id')
+        ->join('direction_set', 'question_sets.direction_set_id', '=', 'direction_set.id')
+        ->leftJoin('direction_image', 'direction_image.direction_set_id', '=', 'direction_set.id')
+        ->orderBy('question_sets.id', 'desc')
+        ->where('question_sets.id',$id)
+        ->get()->toArray();
+
+    }
 }

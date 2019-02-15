@@ -140,6 +140,7 @@ class QuestionSetsController extends Controller
 	 */
 	public function generateAndEmailPDF()
 	{
+		ini_set('max_execution_time', 60);
 		$this->questionObj = new QuestionSet;
 		$result = $this->questionObj->getQuestions();
 		$data['result'] = $result;

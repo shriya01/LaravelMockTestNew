@@ -34,7 +34,7 @@
                                 @foreach($answers as $key)
                                     <strong>{{'Question:-'}}</strong> {!! (ucwords($key->question)) !!}<br/>
                                     <strong>{{'Options:-'}}</strong>
-                                    @for($column="A"; $column <= "E"; $column++)
+                                    @for($column="A"; $column <= "D"; $column++)
                                         <?php $columnname = 'option_'.$column;?>
                                         <br/>
                                         {{$key->$columnname}}

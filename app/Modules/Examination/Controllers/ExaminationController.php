@@ -31,6 +31,7 @@ class ExaminationController extends Controller
     public function __construct()
     {
         $this->mochtestObj = new MockTest();
+        $this->questionsSetObj = new QuestionSet;
     }
     /**
     * @DateOfCreation         31 January 2019
@@ -226,9 +227,16 @@ class ExaminationController extends Controller
                    echo "<br />";                                    
                 }
                 echo $output;
-
             }
-            die;
         }
+    }
+
+
+    public function loadQuestionByID(Request $request)
+    {
+        $id = $request->id;
+        $data['questions'] = $this->questionsSetObj->getQuestionsById($id);
+        echo "<pre>";
+        print_r($data['questions']);
     }
 }
