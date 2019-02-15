@@ -76,7 +76,10 @@
 									<strong>{{ $errors->first('answer') }}</strong>
 								</span>
 								@endif
+								<label>Answer Image</label>
+								<input type="file" name="image">
 							</div>
+					
 							<div>
 								<label>Direction</label>
 								    @if(isset($directions))     
