@@ -37,6 +37,12 @@
                     @endfor
                     <p>Correct Answer : {{$key->correct_option_value}}</p>
                     <p>Answer Explaination - {!! $key->answer !!}</p>
+                    @if(isset($key->answer_image))
+                        Answer Image
+                        <div class="no-break">
+                            <img style="width:500px; height:300px; " src="{{asset('public/images/'.$key->answer_image)}}">
+                        </div>
+                        @endif
                     <hr />
                     </div>
                    <?php  $i++; ?>

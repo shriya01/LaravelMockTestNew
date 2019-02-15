@@ -16,10 +16,27 @@ td>p>span
     <div class="col-lg-12">
         <h3 class="page-header">
             <i class="fa fa-table"></i> Questions
-            <a class="btn btn-primary pull-right" href="{{ url('/') }}/downloadPdf">Download PDF</a>
+
         </h3>
     </div>
+    <form action="{{ url('/') }}/downloadPdf" method="post">
+                @csrf
+                <select name="category_name">
+                    <option value="">Select Category</option>
+                    @foreach($categories as $key)
+                    <option value="{{$key->id}}">{{$key->category_name}}</option>
+                    @endforeach
+
+                </select>
+                    @if ($errors->has('category_name'))
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $errors->first('category_name') }}</strong>
+                                </span>
+                                @endif
+                <input type="submit" name="" value="Download PDF" class="btn btn-primary">
+            </form>
 </div>
+
 <div class="row">
     @if(session()->has('status'))
     <p class="col-md-12 alert alert-success notify_msg">
@@ -58,7 +75,9 @@ td>p>span
                                 <td width="9%">{{ $key->$column_name}}</td>
                             @endfor
                             <td>{{$key->correct_option_value}}</td>
-                            <td><a class="btn btn-primary" data-toggle="tooltip" title="View Answer Explaination" href="{{ route('addHint',Crypt::encrypt($key->id)) }}"><span class="fa fa-eye"></span></a></td>
+                            <td><a class="btn btn-primary" data-toggle="tooltip" title="View Answer Explaination" href="{{ route('addHint',Crypt::encrypt($key->id)) }}"><span class="fa fa-eye"></span></a>
+                            </a>
+                            </td>
                         </tr>
                         @endforeach
                         @endif

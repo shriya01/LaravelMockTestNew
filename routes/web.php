@@ -69,9 +69,9 @@ Route::group(['middleware' => ['auth','admin']], function () {
 	//Question Set
 	Route::get('/questions', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@questions')->name('questions');
 	Route::get('/showQuestion/{section_id?}/{id?}', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@index')->name('showQuestion');
-	Route::get('/addQuestion/{mocktest_id?}/{section_id?}', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@getQuestion')->name('addQuestion');
+	Route::get('/addQuestion/{mocktest_id?}/{section_id?}/{question_id?}', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@getQuestion')->name('addQuestion');
 
-	Route::post('/addQuestion/{mocktest_id?}/{section_id?}', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@postQuestion');
+	Route::post('/addQuestion/{mocktest_id?}/{section_id?}/{question_id?}', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@postQuestion');
 	//Category
 	Route::get('/categories/{id?}', '\App\Modules\Category\Controllers\CategoryController@index');
 	Route::get('/addCategory/{category_id?}', '\App\Modules\Category\Controllers\CategoryController@getCategory')->name('addCategory');
@@ -87,7 +87,7 @@ Route::group(['middleware' => ['auth','admin']], function () {
 	Route::get('/directions/{id?}', '\App\Modules\Directions\Controllers\DirectionsController@index')->name('directions');
 	Route::get('/addDirectionGuidelines/{id?}', '\App\Modules\Directions\Controllers\DirectionsController@getDirection')->name('addDirectionGuidelines');
 	Route::post('/addDirectionGuidelines/{id?}', '\App\Modules\Directions\Controllers\DirectionsController@postDirection');
-	Route::get('/downloadPdf', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@generateAndEmailPDF')->name('downloadPdf');
+	Route::post('/downloadPdf', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@generateAndEmailPDF')->name('downloadPdf');
 	//Package
 	Route::get('/packages', '\App\Modules\Package\Controllers\PackageController@index');
 	Route::get('/addPackage/{package_id?}', '\App\Modules\Package\Controllers\PackageController@getPackage')->name('addPackage');

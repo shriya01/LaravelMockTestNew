@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionSet;
 use App\Models\Direction;
+use App\Models\AnswerImage;
+use App\Models\Category;
 
 use Validator,Crypt,PDF,DB;
 use App\Models\Answers;
@@ -50,6 +52,7 @@ class QuestionSetsController extends Controller
 	public function questions()
 	{
 		$data['questions'] = QuestionSet::get();
+		$data['categories'] = Category::get();
 		return view("QuestionSets::view",$data);
 	}
 
@@ -97,6 +100,15 @@ class QuestionSetsController extends Controller
 		if ($validator->fails()) {
 			return redirect()->back()->withInput()->withErrors($validator->errors());
 		} else {
+
+ 				if($request->has('image')){
+                        $file = $request->file('image');
+                        $fileName =  $file->getClientOriginalName().date('y-m-d');
+                        $destinationPath = public_path('images');
+                        $uploadedFile = $file->move($destinationPath, $fileName);
+                        
+                }
+
 			if(in_array($correct_option,$option_array)){				
 				$formData = [  
 					'question' => $request->question,
@@ -120,6 +132,15 @@ class QuestionSetsController extends Controller
 				if(empty($answers)){
 					Answers::create($formData);
 				}
+				$answer_images = AnswerImage::where('question_id',$id)->get()->toArray();
+						$formData = [
+					'answer_image'=> $fileName,
+					'question_id'=>$id
+				];
+				if(empty($answer_images))
+				{
+					AnswerImage::create($formData);
+				}
 				return redirect()->route('showQuestion',['section_id'=>$request->section_id,'id'=>$request->id,])->with('status','Question Added Successfully');
 			}
 			else
@@ -138,16 +159,24 @@ class QuestionSetsController extends Controller
 	 * @param integer     $email_send [whether to send email or not,default not send]
 	 * @return            Response
 	 */
-	public function generateAndEmailPDF()
+	public function generateAndEmailPDF(Request $request)
 	{
-		ini_set('max_execution_time', 60);
-		$this->questionObj = new QuestionSet;
-		$result = $this->questionObj->getQuestions();
-		$data['result'] = $result;
-		$pdf = PDF::loadView('pdf.questionPdf', $data);
-		$file_path = $pdf->save(public_path('files/questionPdf.pdf'));
-		$pdf = $pdf->download('questionPdf.pdf');
-		return $pdf;
+		$rules = array(
+			'category_name' => 'required',
+		);
+		$validator = Validator::make($request->all(), $rules);
+		if ($validator->fails()) {
+			return redirect()->back()->withInput()->withErrors($validator->errors());
+		} else {
+			ini_set('max_execution_time', 60);
+			$this->questionObj = new QuestionSet;
+			$result = $this->questionObj->getQuestions($request->category_name);
+			$data['result'] = $result;
+			$pdf = PDF::loadView('pdf.questionPdf', $data);
+			$file_path = $pdf->save(public_path('files/questions.pdf'));
+			$pdf = $pdf->download('questions.pdf');
+			return $pdf;
+		}	
 	}
 }
 
