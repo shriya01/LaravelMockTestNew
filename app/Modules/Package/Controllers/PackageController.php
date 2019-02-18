@@ -57,10 +57,10 @@ class PackageController extends Controller
     public function postPackage(Request $request)
     {
         $rules = array(
-            'package_name'             => 'required|unique:packages',
+            'package_name'            => 'required|unique:packages',
             'package_type'            => 'required',
-            'package_price'            => 'required|numeric',
-            'package_validity'            => 'required|numeric',
+            'package_price'           => 'required|numeric',
+            'package_validity'        => 'required|numeric',
         );
          if(!empty($request->id)){
             $id = Crypt::decrypt($request->id);

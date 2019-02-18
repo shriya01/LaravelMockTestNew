@@ -23,7 +23,7 @@ use Validator,DB;
  */
 class MockTestController extends Controller
 {
-        public function __construct()
+    public function __construct()
     {
         $this->directionObj = new Direction;
     }
@@ -123,19 +123,20 @@ class MockTestController extends Controller
         $output = '';
         $data['sections'] = Category::get()->where('section_id',$id)->toArray();
         $output .='<option value="">Select Categories</option>';
-        foreach($data['sections'] as $row => $value)
-        {
+        foreach($data['sections'] as $row => $value){
           $output .= '<option value="'.$value['id'].'">'.$value['category_name'].'</option>';
         }
         echo $output;
     }
 
+
+    
     /**
-    * @DateOfCreation       24 Jan 2019
-    * @ShortDescription This function displays question list.
-    * @param                $id [Section Id]
-    * @return               View
-    */
+     * @DateOfCreation       24 Jan 2019
+     * @ShortDescription     This function displays question list.
+     * @param                $id [Section Id]
+     * @return               View
+     */
     public function showQuestionsByCategory(Request $request)
     {
         $section_id = $request->section_id;
@@ -178,7 +179,7 @@ class MockTestController extends Controller
                       'questions' => $questions_json 
                     ];
         $section_id =  $request->section_id;
-                $mock_tests = MockTest::where(['test_name'=>$request->test_name,'section_id'=>$request->section_id])->get()->toArray();
+        $mock_tests = MockTest::where(['test_name'=>$request->test_name,'section_id'=>$request->section_id])->get()->toArray();
         $max_question = $mock_tests[0]['max_question'];
         if(count($questions_array) == $max_question)
         {

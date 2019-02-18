@@ -40,7 +40,8 @@ class PostController extends Controller
     {
         return view("Post::add");
     }
-        /**
+    
+    /**
      * @DateOfCreation      24 Jan 2019
      * @ShortDescription    This function displays post list.
      * @param               $id [Section Id]
@@ -49,7 +50,6 @@ class PostController extends Controller
     public function postPosts(Request $request)
     {
         DB::table('posts')->insert(['post_name'=>$request->post_name, 'post_description'=>$request->post_description,'category_id'=> 1]);
-    return redirect()->route('showPosts',Crypt::encrypt(1))->with('status','Post Added Successfully');
-
+        return redirect()->route('showPosts',Crypt::encrypt(1))->with('status','Post Added Successfully');
     }
 }
