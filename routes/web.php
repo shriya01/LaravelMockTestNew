@@ -43,10 +43,10 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('/importantInstructions', '\App\Modules\Examination\Controllers\ExaminationController@importantInstructions')->name('importantInstructions');
 	Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@showTest')->name('showTest');
 	Route::post('/loadquestion', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestions')->name('loadQuestion');
-	Route::post('/loadQuestionByID', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestionByID')->name('loadQuestionByID');
-	
+	Route::post('/loadQuestionByID', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestionByID')->name('loadQuestionByID');	
 });
 
+//Admin ROutes
 Route::group(['middleware' => ['auth','admin']], function () {
 	Route::get('dashboard', '\App\Modules\Dashboard\Controllers\DashboardController@index');
 	//Section Module
