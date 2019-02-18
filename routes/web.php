@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('/loadQuestionByID', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestionByID')->name('loadQuestionByID');	
 });
 
-//Admin ROutes
+//Admin Routes
 Route::group(['middleware' => ['auth','admin']], function () {
 	Route::get('dashboard', '\App\Modules\Dashboard\Controllers\DashboardController@index');
 	//Section Module
