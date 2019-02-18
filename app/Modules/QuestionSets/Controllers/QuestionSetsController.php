@@ -100,15 +100,6 @@ class QuestionSetsController extends Controller
 		if ($validator->fails()) {
 			return redirect()->back()->withInput()->withErrors($validator->errors());
 		} else {
-
- 				if($request->has('image')){
-                        $file = $request->file('image');
-                        $fileName =  $file->getClientOriginalName().date('y-m-d');
-                        $destinationPath = public_path('images');
-                        $uploadedFile = $file->move($destinationPath, $fileName);
-                        
-                }
-
 			if(in_array($correct_option,$option_array)){				
 				$formData = [  
 					'question' => $request->question,
@@ -132,15 +123,21 @@ class QuestionSetsController extends Controller
 				if(empty($answers)){
 					Answers::create($formData);
 				}
-				$answer_images = AnswerImage::where('question_id',$id)->get()->toArray();
-						$formData = [
-					'answer_image'=> $fileName,
-					'question_id'=>$id
-				];
-				if(empty($answer_images))
-				{
-					AnswerImage::create($formData);
-				}
+				if($request->has('image')){
+                    $file = $request->file('image');
+                    $fileName =  $file->getClientOriginalName().date('y-m-d');
+                    $destinationPath = public_path('images');
+                    $uploadedFile = $file->move($destinationPath, $fileName);
+                    	$answer_images = AnswerImage::where('question_id',$id)->get()->toArray();
+					$formData = [
+						'answer_image'=> $fileName,
+						'question_id'=>$id
+					];
+					if(empty($answer_images))
+					{
+						AnswerImage::create($formData);
+					}
+                }
 				return redirect()->route('showQuestion',['section_id'=>$request->section_id,'id'=>$request->id,])->with('status','Question Added Successfully');
 			}
 			else
@@ -168,7 +165,6 @@ class QuestionSetsController extends Controller
 		if ($validator->fails()) {
 			return redirect()->back()->withInput()->withErrors($validator->errors());
 		} else {
-			ini_set('max_execution_time', 60);
 			$this->questionObj = new QuestionSet;
 			$result = $this->questionObj->getQuestions($request->category_name);
 			$data['result'] = $result;
