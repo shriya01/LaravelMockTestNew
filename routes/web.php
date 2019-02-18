@@ -30,10 +30,6 @@ Route::post('reset-password','\App\Modules\Auth\Controllers\ResetPasswordControl
 Route::get('google-login', '\App\Modules\Auth\Controllers\LoginController@loginWithGoogle');
 Route::get('github-login', '\App\Modules\Auth\Controllers\LoginController@loginWithGithub');
 Route::get('facebook-login', '\App\Modules\Auth\Controllers\LoginController@loginWithFacebook');
-//Admin Routes
-Route::get('admin', '\App\Modules\Auth\Controllers\AdminController@getLogin');
-Route::post('admin', '\App\Modules\Auth\Controllers\AdminController@postLogin');
-
 Route::group(['middleware' => ['auth']], function () {
 	//Profile Module
 	Route::get('profile', '\App\Modules\Profile\Controllers\ProfileController@getProfileData');
@@ -47,6 +43,8 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 //Admin Routes
+Route::get('admin', '\App\Modules\Auth\Controllers\AdminController@getLogin');
+Route::post('admin', '\App\Modules\Auth\Controllers\AdminController@postLogin');
 Route::group(['middleware' => ['auth','admin']], function () {
 	Route::get('dashboard', '\App\Modules\Dashboard\Controllers\DashboardController@index');
 	//Section Module
