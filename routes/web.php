@@ -40,6 +40,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@showTest')->name('showTest');
 	Route::post('/loadquestion', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestions')->name('loadQuestion');
 	Route::post('/loadQuestionByID', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestionByID')->name('loadQuestionByID');	
+
+	
+		Route::post('/loadQuestionBySection', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestionBySection')->name('loadQuestionBySection');
 });
 
 //Admin Routes

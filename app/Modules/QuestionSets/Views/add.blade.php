@@ -18,14 +18,14 @@
 </div>
 <div class="row">
 	@if(isset($questions))
-								@foreach($questions as $key)
-								<?php 
-								$question = $key->question;
-								$correct_option_value = $key->correct_option_value;
-								$answer = $key->answer;
-								?>
-								@endforeach
-								@endif
+	@foreach($questions as $key)
+	<?php 
+	$question = $key->question;
+	$correct_option_value = $key->correct_option_value;
+	$answer = $key->answer;
+	?>
+	@endforeach
+	@endif
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -38,10 +38,10 @@
 							@csrf
 							<input type="hidden" name="id" value="{{$id}}">
 							<input type="hidden" name="section_id" value="{{$section_id}}">
-							<input type="hidden" name="question_id" value="{{$question_id}}">
+							<input type="hidden" name="question_id" @if(isset($question_id)) value="{{$question_id}}" @endif>
 							<div class="form-group">
 								<label>Question Name</label>
-								<input class="form-control" id ="question" name="question" value="{{$question}}" >
+								<input class="form-control" id ="question" name="question" @if(isset($question)) value="{{$question}}" @endif>
 								@if ($errors->has('question'))
 								<span class="text-danger" role="alert">
 									<strong>{{ $errors->first('question') }}</strong>
@@ -71,7 +71,7 @@
 							@endfor
 							<div class="form-group">
 								<label>Correct Option Value</label>
-								<input class="form-control" name="correct_option_value" value="{{$correct_option_value}}">
+								<input class="form-control" name="correct_option_value" @if(isset($correct_option_value)) value="{{$correct_option_value}}" @endif >
 								@if(session()->has('error'))
 								<span class="text-danger" role="alert">     
 									<strong>{{ session()->get('error') }}</strong>   
@@ -85,12 +85,7 @@
 							</div>
 							<div class="form-group">
 								<label>Answer Explaination</label>
-								<input class="form-control" id ="answer" name="answer" value="{{$answer}}" >
-								@if(session()->has('error'))
-								<span class="text-danger" role="alert">     
-									<strong>{{ session()->get('error') }}</strong>   
-								</span>
-								@endif 
+								<input class="form-control" id ="answer" name="answer" @if(isset($answer)) value="{{$answer}}" @endif >
 								@if ($errors->has('answer'))
 								<span class="text-danger" role="alert">
 									<strong>{{ $errors->first('answer') }}</strong>

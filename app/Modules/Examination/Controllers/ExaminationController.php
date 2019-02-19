@@ -214,8 +214,9 @@ class ExaminationController extends Controller
         $test_name =  $request->test_name;
         $mock_tests = MockTest::get()->where('test_name',$test_name);
         $i=1;
+        $array = [];
         foreach ($mock_tests as $key => $value){
-            $questions =  $value->questions;
+            /*$questions =  $value->questions;
             $questions = json_decode($questions,true);
             foreach ($questions as $key => $value) {
                 $questions_array = QuestionSet::get()->where('id',$value)->toArray();
@@ -227,10 +228,13 @@ class ExaminationController extends Controller
                    echo "<br />";                                    
                 }
                 echo $output;
-                $i++;
+                $i++;*/
+                array_push($array, ['section_id'=>$value->section_id]);
+
             }
-          echo '<br />';
-        }
+
+            echo json_encode($array);
+        
     }
 
     /**
@@ -252,6 +256,33 @@ class ExaminationController extends Controller
                 $output.= '<input type="checkbox">'.$value->$columnName.'</input><br/>';
             }
             echo $output;
+        }
+    }
+
+    public function loadQuestionBySection(Request $request)
+    {
+        $test_name =  $request->test_name;
+        $section_id = $request->section_id;
+        $whereArray = ['test_name' => $test_name, 'section_id'=> $section_id];
+        $mock_tests = DB::table('mock_tests')
+                            ->where($whereArray)
+                            ->get();
+        $i=1;
+        foreach ($mock_tests as $key => $value){
+            $questions =  $value->questions;
+            $questions = json_decode($questions,true);
+            foreach ($questions as $key => $value) {
+                $questions_array = QuestionSet::get()->where('id',$value)->toArray();
+                $key_new =  $key+1;
+                $output  = '';
+                $output .= "<button style='width:50px;' type='button' class='btn btn-sm btn-default question_switch' value=".$value.">$i</button>";
+                if( $key%5 == 0 )
+                {
+                   echo "<br />";                                    
+                }
+                echo $output;
+                $i++;
+            }
         }
     }
 }
