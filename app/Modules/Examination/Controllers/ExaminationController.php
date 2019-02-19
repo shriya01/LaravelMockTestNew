@@ -86,7 +86,7 @@ class ExaminationController extends Controller
         );
         if(!empty($id)){
             $id = Crypt::decrypt($id);
-    //$rules['examination_name']     = 'required|unique:examinations,examination_name,'.$id.',id';
+        $rules['examination_name']     = 'required|unique:examinations,examination_name,'.$id.',id';
         }
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -132,7 +132,7 @@ class ExaminationController extends Controller
      */
     public function showTest($id)
     {
-        $data['test'] = DB::table('mock_tests')->distinct('test_name')->select('test_name','examination_id')->get();
+        $data['test'] = DB::table('mock_tests')->distinct('test_name')->select('test_name','examination_id')->where('examination_id',$id)->get();
         return view("Examination::user.testList",$data);
     } 
 
@@ -213,6 +213,7 @@ class ExaminationController extends Controller
     {
         $test_name =  $request->test_name;
         $mock_tests = MockTest::get()->where('test_name',$test_name);
+        $i=1;
         foreach ($mock_tests as $key => $value){
             $questions =  $value->questions;
             $questions = json_decode($questions,true);
@@ -220,13 +221,15 @@ class ExaminationController extends Controller
                 $questions_array = QuestionSet::get()->where('id',$value)->toArray();
                 $key_new =  $key+1;
                 $output  = '';
-                $output .= "<button style='width:50px;' type='button' class='btn btn-sm btn-default question_switch' value=".$value.">$key_new</button>";
+                $output .= "<button style='width:50px;' type='button' class='btn btn-sm btn-default question_switch' value=".$value.">$i</button>";
                 if( $key%5 == 0 )
                 {
                    echo "<br />";                                    
                 }
                 echo $output;
+                $i++;
             }
+          echo '<br />';
         }
     }
 
@@ -241,7 +244,6 @@ class ExaminationController extends Controller
         $id = $request->id;
         $questions = $this->questionsSetObj->getQuestionsById($id);
         foreach ($questions as $key => $value) {
-            # code...
             $output = '';
             $output.= '<h3>Directions : '.$value->direction_set_name.'</h3>';
             $output.= '<h4>Question : '.$value->question.'</h4>';

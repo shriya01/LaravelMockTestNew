@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
 //Admin Routes
 Route::get('admin', '\App\Modules\Auth\Controllers\AdminController@getLogin');
 Route::post('admin', '\App\Modules\Auth\Controllers\AdminController@postLogin');
+//Admin Routes
 Route::group(['middleware' => ['auth','admin']], function () {
 	Route::get('dashboard', '\App\Modules\Dashboard\Controllers\DashboardController@index');
 	//Section Module
@@ -68,7 +69,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
 	Route::get('/questions', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@questions')->name('questions');
 	Route::get('/showQuestion/{section_id?}/{id?}', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@index')->name('showQuestion');
 	Route::get('/addQuestion/{mocktest_id?}/{section_id?}/{question_id?}', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@getQuestion')->name('addQuestion');
-
 	Route::post('/addQuestion/{mocktest_id?}/{section_id?}/{question_id?}', '\App\Modules\QuestionSets\Controllers\QuestionSetsController@postQuestion');
 	//Category
 	Route::get('/categories/{id?}', '\App\Modules\Category\Controllers\CategoryController@index');
@@ -93,8 +93,6 @@ Route::group(['middleware' => ['auth','admin']], function () {
 
 	Route::post('/getCategoriesBySection', '\App\Modules\MockTest\Controllers\MockTestController@getCategoriesBySection')->name('getCategoriesBySection');
 	Route::post('/showQuestions', '\App\Modules\MockTest\Controllers\MockTestController@showQuestions')->name('showQuestions');
-		Route::post('/showQuestions', '\App\Modules\MockTest\Controllers\MockTestController@showQuestionsByCategory')->name('showQuestions');
-		Route::post('/addQuestions', '\App\Modules\MockTest\Controllers\MockTestController@addQuestions')->name('addQuestions');
-
-
+	Route::post('/showQuestions', '\App\Modules\MockTest\Controllers\MockTestController@showQuestionsByCategory')->name('showQuestions');
+	Route::post('/addQuestions', '\App\Modules\MockTest\Controllers\MockTestController@addQuestions')->name('addQuestions');
 });
