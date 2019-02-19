@@ -24,6 +24,8 @@ class QuestionSetsController extends Controller
 	public function __construct()
 	{
 		$this->directionObj = new Direction;
+				$this->questionObj = new QuestionSet;
+
 	}
 	
 	/**
@@ -62,12 +64,21 @@ class QuestionSetsController extends Controller
 	 * @param 				$id [Section Id]
 	 * @return 				View
 	 */
-	public function getQuestion($id,$section_id)
+	public function getQuestion($id,$section_id,$question_id = null)
 	{
 		$data['id'] = $id;
 		$data['section_id'] = $section_id;
-		$data['directions'] =  $this->directionObj->getdirections(['category_id'=>Crypt::decrypt($id) ]);
-		return view("QuestionSets::add",$data);
+		if(!empty($question_id))
+		{
+			$data['question_id'] =  $question_id;
+			$question_id = Crypt::decrypt($question_id);
+			$data['questions'] = $this->questionObj->getQuestionsById($question_id);
+		}
+		else
+		{
+			$data['directions'] =  $this->directionObj->getdirections(['category_id'=>Crypt::decrypt($id) ]);
+		}
+		return view("QuestionSets::add",$data);	
 	}
 
 	/**
@@ -90,8 +101,13 @@ class QuestionSetsController extends Controller
 			'question'             => 'required|unique:question_sets',
 			'id'                   => 'required', 
 			'correct_option_value' => 'required',
-			'answer'			   => 'required'
+			'answer'			   => 'required',
 		);
+		if(!empty($request->question_id))
+		{
+			$id = Crypt::decrypt($request->question_id);
+			$rules['question']     = 'required|unique:question_sets,question,'.$id.',id';
+		}
 		for($column="A"; $column <= "E"; $column++){
 			$columnName = "option_".$column;		
 			$rules[$columnName] = 'required';
@@ -106,7 +122,7 @@ class QuestionSetsController extends Controller
 					'correct_option_value' => $correct_option,
 					'category_id'		=> Crypt::decrypt($request->id),
 					'section_id'=>Crypt::decrypt($request->section_id),
-					'direction_set_id'	=> $request->directions
+					
 				];
 				$i=0;
 				for($column="A"; $column <= "E"; $column++){
@@ -114,7 +130,15 @@ class QuestionSetsController extends Controller
 					$formData[$columnName] = $option_array[$i];
 					$i++;
 				}
-				$id = QuestionSet::create($formData)->id;
+				if(empty($id))
+				{
+					$formData['direction_set_id']	= $request->directions;
+					$id = QuestionSet::create($formData)->id;
+				}
+				else
+				{
+					QuestionSet::where('id',$id)->update($formData);
+				}
 				$formData = [
 					'answer'=> $request->answer,
 					'question_id'=>$id
@@ -122,6 +146,10 @@ class QuestionSetsController extends Controller
 				$answers = Answers::where('question_id',$id)->get()->toArray();
 				if(empty($answers)){
 					Answers::create($formData);
+				}
+				else
+				{
+					Answers::where('question_id',$id)->update($formData);
 				}
 				if($request->has('image')){
                     $file = $request->file('image');
@@ -137,6 +165,10 @@ class QuestionSetsController extends Controller
 					{
 						AnswerImage::create($formData);
 					}
+                }
+                if(!empty($request->question_id))
+                {
+					return redirect()->route('showQuestion',['section_id'=>$request->section_id,'id'=>$request->id,])->with('status','Question Updated Successfully');
                 }
 				return redirect()->route('showQuestion',['section_id'=>$request->section_id,'id'=>$request->id,])->with('status','Question Added Successfully');
 			}
