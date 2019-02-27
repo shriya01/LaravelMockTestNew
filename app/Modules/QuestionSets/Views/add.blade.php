@@ -11,7 +11,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h3 class="page-header">
-			<i class="fa fa-table"></i> Add Question
+			<i class="fa fa-table"></i> {{__('QuestionSets::messages.add_que')}}
 			<a class="btn btn-primary pull-right" href=" {{ url('/') }}/examination"> {{__('Section::messages.go_back')}}</a>
 		</h3>
 	</div>
@@ -29,7 +29,7 @@
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Add Question
+				{{__('QuestionSets::messages.add_que')}}
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -40,7 +40,7 @@
 							<input type="hidden" name="section_id" value="{{$section_id}}">
 							<input type="hidden" name="question_id" @if(isset($question_id)) value="{{$question_id}}" @endif>
 							<div class="form-group">
-								<label>Question Name</label>
+								<label>{{__('QuestionSets::messages.que')}}</label>
 								<input class="form-control" id ="question" name="question" @if(isset($question)) value="{{$question}}" @endif>
 								@if ($errors->has('question'))
 								<span class="text-danger" role="alert">
@@ -50,7 +50,7 @@
 							</div>
 							@for($column="A"; $column <= "E"; $column++)
 							<div class="form-group">
-								<label>Option {{$column}}</label>
+								<label>{{__('QuestionSets::messages.option')}} {{$column}}</label>
 								@if(isset($questions))
 								@foreach($questions as $key)
 								<?php 
@@ -70,7 +70,7 @@
 							</div>
 							@endfor
 							<div class="form-group">
-								<label>Correct Option Value</label>
+								<label>{{__('QuestionSets::messages.correct_option')}}</label>
 								<input class="form-control" name="correct_option_value" @if(isset($correct_option_value)) value="{{$correct_option_value}}" @endif >
 								@if(session()->has('error'))
 								<span class="text-danger" role="alert">     
@@ -84,7 +84,7 @@
 								@endif
 							</div>
 							<div class="form-group">
-								<label>Answer Explaination</label>
+								<label>{{__('QuestionSets::messages.ans_ex')}}</label>
 								<input class="form-control" id ="answer" name="answer" @if(isset($answer)) value="{{$answer}}" @endif >
 								@if ($errors->has('answer'))
 								<span class="text-danger" role="alert">
@@ -92,22 +92,22 @@
 								</span>
 								@endif
 								@if(empty($question_id))
-								<label>Answer Image</label>
-								<input type="file" name="image">
+								<label>{{__('QuestionSets::messages.ans_im')}}</label>
+								<input type="file" name="image" multiple="multiple">
 								@endif
 							</div>
 							<div>
 								@if(isset($directions))     
-								<label>Direction</label>
+								<label>{{__('Directions::messages.direction_guidelines')}}</label>
 								<select name="directions">              
-									<option value="">Select Directions</option>
+									<option value="">{{__('Directions::messages.sel_dir_guide')}}</option>
 									@foreach($directions as $key)
 									<option value="{{$key->id}}">{{$key->direction_set_name}}</option>
 									@endforeach
 								</select>
 								@endif
 							</div>
-							<button type="submit" class="btn btn-default">Submit</button>
+							<button type="submit" class="btn btn-default">{{__('Section::messages.submit')}}</button>
 						</div>
 					</div>
 				</div>

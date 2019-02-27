@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Modules\Examination\Controllers;
 
 use Illuminate\Http\Request;
@@ -8,15 +7,14 @@ use App\Models\Examination;
 use Crypt,Exception;
 use App\Models\MockTest;
 use App\Models\QuestionSet;
-
 use Validator,DB,Carbon;
 
 /**
-* ExaminationController
-*
-* @package                LaravelMockTest
-* @category               Controller
-* @DateOfCreation         31 January 2019
+ * ExaminationController
+ *
+ * @package                LaravelMockTest
+ * @category               Controller
+*  @DateOfCreation         31 January 2019
 * @ShortDescription       ExaminationController contains examination module related functions
 */
 class ExaminationController extends Controller
@@ -216,25 +214,9 @@ class ExaminationController extends Controller
         $i=1;
         $array = [];
         foreach ($mock_tests as $key => $value){
-            /*$questions =  $value->questions;
-            $questions = json_decode($questions,true);
-            foreach ($questions as $key => $value) {
-                $questions_array = QuestionSet::get()->where('id',$value)->toArray();
-                $key_new =  $key+1;
-                $output  = '';
-                $output .= "<button style='width:50px;' type='button' class='btn btn-sm btn-default question_switch' value=".$value.">$i</button>";
-                if( $key%5 == 0 )
-                {
-                   echo "<br />";                                    
-                }
-                echo $output;
-                $i++;*/
-                array_push($array, ['section_id'=>$value->section_id]);
-
-            }
-
-            echo json_encode($array);
-        
+               array_push($array, ['section_id'=>$value->section_id]);
+        }
+        echo json_encode($array);
     }
 
     /**
@@ -259,6 +241,12 @@ class ExaminationController extends Controller
         }
     }
 
+    /**
+     * @DateOfCreation      14 Feb 2019
+     * @ShortDescription    This function loads the specified question
+     * @param               Request $request s
+     * @return              View
+     */
     public function loadQuestionBySection(Request $request)
     {
         $test_name =  $request->test_name;

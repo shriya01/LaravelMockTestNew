@@ -12,23 +12,19 @@
     margin-bottom: 20px;
     margin-left: 2%;
 }
-h4
-{
+h4{
     margin-left: 2%;
 }
 </style>
 @endsection
 @section('content')
 <div class="container-fluid" id="container">
-
     <div id="next"></div>
     <div id="question">
         <div class="col-sm-2 pull-right" id="questions_switch"></div>
-         <div class="col-sm-10 pull-left" id="question_panel">
-             <div id="timer">
-                 
-             </div>
-         </div>
+        <div class="col-sm-10 pull-left" id="question_panel">
+            <div id="timer"></div>
+        </div>
     </div>
     <div class="panel panel-info" id="instruction">
         <div class="panel-heading">General Instructions:</div>
@@ -83,7 +79,7 @@ h4
 @endsection
 @section('scripts')
 <script>
-   jQuery(document).ready(function() {
+    jQuery(document).ready(function() {
         var value = attrid ='';
         jQuery('.next').click(function() {
             jQuery.ajaxSetup({
@@ -123,85 +119,71 @@ h4
                     data:{test_name:test_name},
                     dataType:'json',
                     success: function(result) {
-                     //   var myVar = setInterval(myTimer, 1000);
-                         var date = new Date();                                                       
-
+                        var date = new Date();                                                       
                         $.each(result, function (i) {
-
                             $.each(result[i], function (key, val) { 
-                                setTimeout(loadQuestion(test_name,val),10000000);
+                                loadQuestion(test_name,val);
                             });
-                                                            console.log(i+' for '+date.getSeconds());
-
                         });
                         $("#instruction").empty().hide();
                     },
-                    error:function(xhr)
-                    {
+                    error:function(xhr){
                         console.log(xhr);
                     }
                 });
             }
-            else if(id == '')
-            {
+            else if(id == ''){
                 alert('please select language');
             }
             else{
                 alert('please accept terms');
             }
         });
-
         $("#container").on('click', '.question_switch', function () {
             var id = $(this).val();
             var desired = id.replace(/[^\w\s]/gi, '')
             jQuery.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                jQuery.ajax({
-                    url: "{{ route('loadQuestionByID') }}",
-                    type: 'post',
-                    data:{id:id},
-                    success: function(result) {
-
-                        $("#instruction").empty().hide();
-                        $("#question_panel").html(result);
-                    },
-                    error:function(xhr)
-                    {
-                        console.log(xhr);
-                    }
-                });
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            jQuery.ajax({
+                url: "{{ route('loadQuestionByID') }}",
+                type: 'post',
+                data:{id:id},
+                success: function(result) {
+                    $("#instruction").empty().hide();
+                    $("#question_panel").html(result);
+                },
+                error:function(xhr)
+                {
+                    console.log(xhr);
+                }
+            });
         });
     });
-    function myTimer() {
-      var d = new Date();
-      document.getElementById("timer").innerHTML = d.toLocaleTimeString();
-    } 
     function loadQuestion(test_name,section_id) {
-        console.log(section_id);
-
+        var d = new Date();
+        console.log(section_id+Date.now());
         jQuery.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                jQuery.ajax({
-                    url: "{{ route('loadQuestionBySection') }}",
-                    type: 'post',
-                    data:{test_name:test_name,section_id:section_id},
-                    success: function(result) {
-                        $("#instruction").empty().hide();
-                                                $("#questions_switch").html(result);
-
-                    },
-                    error:function(xhr)
-                    {
-                        console.log(xhr);
-                    }
-                });
-
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        jQuery.ajax({
+            url: "{{ route('loadQuestionBySection') }}",
+            type: 'post',
+            data:{test_name:test_name,section_id:section_id},
+            success: function(result) {
+                console.log(result);
+                $("#instruction").empty().hide();
+                $("#questions_switch").append(result);
+            },
+            error:function(xhr)
+            {
+                console.log(xhr);
+            }
+        });
     } 
 </script>
 @endsection

@@ -7,7 +7,6 @@ use App\Models\QuestionSet;
 use App\Models\Direction;
 use App\Models\AnswerImage;
 use App\Models\Category;
-
 use Validator,Crypt,PDF,DB;
 use App\Models\Answers;
 
@@ -24,8 +23,7 @@ class QuestionSetsController extends Controller
 	public function __construct()
 	{
 		$this->directionObj = new Direction;
-				$this->questionObj = new QuestionSet;
-
+		$this->questionObj = new QuestionSet;
 	}
 	
 	/**
