@@ -3,7 +3,9 @@
 <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 <script>
 	tinymce.init({
-		selector: '#answer,#question'
+		selector: '#answer,#question',
+		  plugins: "image",
+		    file_picker_types: 'image',
 	});
 </script>
 @endsection

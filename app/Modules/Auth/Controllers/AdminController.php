@@ -16,6 +16,7 @@ class AdminController extends Controller
     {
         $this->middleware('guest:admin');
     }
+    
     /**
      * @DateOfCreation         07 Jan 2019
      * @ShortDescription       Load the login view

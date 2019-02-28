@@ -63,6 +63,7 @@ class ForgotPasswordController extends Controller
             }
         }
     }
+    
     /**
      * @DateOfCreation         08 Jan 2019
      * @ShortDescription       This function is used to tell user that they are registered but not

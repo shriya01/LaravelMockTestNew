@@ -34,20 +34,18 @@ Route::group(['middleware' => ['auth']], function () {
 	//Profile Module
 	Route::get('profile', '\App\Modules\Profile\Controllers\ProfileController@getProfileData');
 	Route::post('profile', '\App\Modules\Profile\Controllers\ProfileController@postProfileData');
-	Route::get('exams', '\App\Modules\Examination\Controllers\ExaminationController@getExamsListUserSide');
-	Route::get('/testInstructions/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@testInstructions')->name('testInstructions');
-	Route::post('/importantInstructions', '\App\Modules\Examination\Controllers\ExaminationController@importantInstructions')->name('importantInstructions');
-	Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\ExaminationController@showTest')->name('showTest');
-	Route::post('/loadquestion', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestions')->name('loadQuestion');
-	Route::post('/loadQuestionByID', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestionByID')->name('loadQuestionByID');	
-
-	
-		Route::post('/loadQuestionBySection', '\App\Modules\Examination\Controllers\ExaminationController@loadQuestionBySection')->name('loadQuestionBySection');
+	Route::get('exams', '\App\Modules\Examination\Controllers\UserExaminationController@getExamsListUserSide');
+	Route::get('/testInstructions/{section_id?}', '\App\Modules\Examination\Controllers\UserExaminationController@testInstructions')->name('testInstructions');
+	Route::post('/importantInstructions', '\App\Modules\Examination\Controllers\UserExaminationController@importantInstructions')->name('importantInstructions');
+	Route::get('/showTest/{section_id?}', '\App\Modules\Examination\Controllers\UserExaminationController@showTest')->name('showTest');
+	Route::post('/loadquestion', '\App\Modules\Examination\Controllers\UserExaminationController@loadQuestions')->name('loadQuestion');
+	Route::post('/loadQuestionByID', '\App\Modules\Examination\Controllers\UserExaminationController@loadQuestionByID')->name('loadQuestionByID');	
+	Route::post('/loadQuestionBySection', '\App\Modules\Examination\Controllers\UserExaminationController@loadQuestionBySection')->name('loadQuestionBySection');
 });
 
 //Admin Routes
-Route::get('admin', '\App\Modules\Auth\Controllers\AdminController@getLogin');
-Route::post('admin', '\App\Modules\Auth\Controllers\AdminController@postLogin');
+Route::get('administartor', '\App\Modules\Auth\Controllers\AdminController@getLogin');
+Route::post('administartor', '\App\Modules\Auth\Controllers\AdminController@postLogin');
 //Admin Routes
 Route::group(['middleware' => ['auth','admin']], function () {
 	Route::get('dashboard', '\App\Modules\Dashboard\Controllers\DashboardController@index');

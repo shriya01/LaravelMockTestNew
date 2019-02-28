@@ -80,28 +80,9 @@ h4{
 @section('scripts')
 <script>
     jQuery(document).ready(function() {
-        var value = attrid ='';
         jQuery('.next').click(function() {
-            jQuery.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            jQuery.ajax({
-                url: "{{ route('importantInstructions') }}",
-                type: 'post',
-                success: function(result) {
-                    $('#instruction').html(result);
-                },
-                error:function(xhr)
-                {
-                    alert('Sorry for the incovenice. something went wrong please try again later');
-                }
-            });
+            $('#instruction').html(' <div class="panel-heading"><b>Other Important Instructions</b></div><div class="panel-body"><h4><b>Read the following Instruction carefully:</b></h4><ul><li><h4>This test comprises of multiple-choice questions.</h4></li><li><h4>Each question will have only one of the available options as the correct answer.</h4></li><li><h4>You are advised not to close the browser window before submitting the test.</h4></li><li><h4>In case, if the test does not load completely or becomes unresponsive, click on browser refresh button to reload.</h4></li></ul><h4><b>Marking Scheme:</b></h4><ul><li><h4>1 mark(s) will be awarded for each correct answer.</h4></li><li><h4>0.25 mark(s) will be deducted for every wrong answer.</h4></li><li><h4>No marks will be deducted/awarded for un-attempted questions</h4></li></ul><h5><b>Choose your default Language</b><select id="drop"><option value="">Select your Language</option><option value="english">English</option><option value="hindi"> Hindi</option></select><span>Please note that all question will appear in your default language. This language can not be changed after-words.</span></h5><h5 class="pad10"><input type="checkbox" name="" value="" id="checkbeforeexam" class="checkboxset">&nbsp; I have read and understood all the instructions. I understand that using unfair means of any sort for any advantage will lead to immediate disqualification. The decision of ixambee.com will be final in these matters.</h5><a href="#" class="pull-left btn btn-primary  btn-sm mr-2" align="left"><<--Previous</a><a id="loadQuestion" class="pull-right btn btn-primary  btn-sm mr-2" align="right">I an ready to begin--->>></a></div>');
         });
-        function loadSection(test_name,section_id) {
-            console.log(test_name+section_id);
-        }
         $("#container").on('click', '#loadQuestion', function () {
             var id = $("#drop").val();
             var check = $('input[type="checkbox"]').is(':checked');
@@ -126,9 +107,6 @@ h4{
                             });
                         });
                         $("#instruction").empty().hide();
-                    },
-                    error:function(xhr){
-                        console.log(xhr);
                     }
                 });
             }
@@ -142,29 +120,11 @@ h4{
         $("#container").on('click', '.question_switch', function () {
             var id = $(this).val();
             var desired = id.replace(/[^\w\s]/gi, '')
-            jQuery.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            jQuery.ajax({
-                url: "{{ route('loadQuestionByID') }}",
-                type: 'post',
-                data:{id:id},
-                success: function(result) {
-                    $("#instruction").empty().hide();
-                    $("#question_panel").html(result);
-                },
-                error:function(xhr)
-                {
-                    console.log(xhr);
-                }
-            });
+            loadQuestionByID(id);
         });
     });
     function loadQuestion(test_name,section_id) {
         var d = new Date();
-        console.log(section_id+Date.now());
         jQuery.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -175,15 +135,27 @@ h4{
             type: 'post',
             data:{test_name:test_name,section_id:section_id},
             success: function(result) {
-                console.log(result);
                 $("#instruction").empty().hide();
                 $("#questions_switch").append(result);
+                loadQuestionByID(1);
             },
-            error:function(xhr)
-            {
-                console.log(xhr);
-            }
         });
     } 
+    function  loadQuestionByID(id) {
+        jQuery.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        jQuery.ajax({
+            url: "{{ route('loadQuestionByID') }}",
+            type: 'post',
+            data:{id:id},
+            success: function(result) {
+                $("#instruction").empty().hide();
+                $("#question_panel").html(result);
+            }
+        });
+    }
 </script>
 @endsection
