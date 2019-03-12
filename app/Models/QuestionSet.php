@@ -38,6 +38,5 @@ class QuestionSet extends Model
         ->orderBy('question_sets.id', 'desc')
         ->where('question_sets.id',$id)
         ->get()->toArray();
-
     }
 }

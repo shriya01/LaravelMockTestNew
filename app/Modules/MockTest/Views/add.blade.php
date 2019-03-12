@@ -4,7 +4,7 @@
     <div class="col-lg-12">
         <h3 class="page-header">
             <i class="fa fa-table"></i> Add Mock Test
-            <a class="btn btn-primary pull-right" href=" {{ url('/') }}/examination"> {{__('Section::messages.go_back')}}</a>
+            <a class="btn btn-primary pull-right" href=" {{ url('/') }}/mock-test"> {{__('Section::messages.go_back')}}</a>
         </h3>
     </div>
 </div>

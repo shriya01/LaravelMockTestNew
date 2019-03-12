@@ -50,15 +50,17 @@ td>p>span
                         @if(isset($questions))                   
                         @foreach($questions as $key)
                         <tr class="odd gradeX">
-                            <td width="50%">{!! ($key->question) !!}</td>
+                            <td width="40%">{!! ($key->question) !!}</td>
                             @for($column="A"; $column <= "E"; $column++)
                             <?php 
                             $column_name = 'option_'.$column;
                             ?>
-                            <td width="9%">{{ $key->$column_name}}</td>
+                            <td width="8%">{{ $key->$column_name}}</td>
                             @endfor
                             <td>{{$key->correct_option_value}}</td>
-                            <td><a class="btn btn-primary" data-toggle="tooltip" title="View Answer Explaination" href="{{ route('addHint',Crypt::encrypt($key->id)) }}"><span class="fa fa-eye"></span></a></td>
+                            <td><a class="btn btn-primary" data-toggle="tooltip" title="View Answer Explaination" href="{{ route('addHint',Crypt::encrypt($key->id)) }}"><span class="fa fa-eye"></span></a>
+                            <a class="btn btn-primary" data-toggle="tooltip" title="View Answer Explaination" href="{{ url('/') }}/addQuestion/{{$id}}/{{$section_id}}/{{Crypt::encrypt($key->id)}}"><span class="fa fa-pencil"></span></a>
+                            </td>
                         </tr>
                         @endforeach
                         @endif

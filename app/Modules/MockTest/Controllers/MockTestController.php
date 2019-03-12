@@ -117,6 +117,12 @@ class MockTestController extends Controller
         }
     }
 
+    /**
+     * @DateOfCreation       18 Feb 2019
+     * @ShortDescription     This function displays categories by section.
+     * @param                $id [Section Id]
+     * @return               View
+     */
     public function getCategoriesBySection(Request $request)
     {
         $id =  $request->id;
@@ -129,11 +135,9 @@ class MockTestController extends Controller
         echo $output;
     }
 
-
-    
     /**
      * @DateOfCreation       24 Jan 2019
-     * @ShortDescription     This function displays question list.
+     * @ShortDescription     This function show question by category.
      * @param                $id [Section Id]
      * @return               View
      */

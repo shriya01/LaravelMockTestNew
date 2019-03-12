@@ -13,7 +13,7 @@
       @if(isset($examinations))       
       <ul class="list-group">
         @foreach($examinations as $key)
-        <li class="list-group-item"><a href="{{ route('showTest',$key['id']) }}">{{$key['examination_name']}}</a></li>
+        <li class="list-group-item"><a href="{{ route('showTest',Crypt::encrypt($key['id'])) }}">{{$key['examination_name']}}</a></li>
         @endforeach
       </ul>
       @endif

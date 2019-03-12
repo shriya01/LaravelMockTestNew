@@ -28,6 +28,7 @@
                         <form role="form" method="post" action="" enctype="multipart/form-data">
                             @csrf
                             @if(isset($id))<input type="hidden" name="id" value="{{$id}}"> @endif
+                            @if(empty($id))
                             <div class="form-group">
                                 <label>Category</label>
                                 <select name="category_name" > 
@@ -42,6 +43,7 @@
                                 </span>
                                 @endif
                             </div>
+                            @endif
                             <div class="form-group">
                                 <label>{{__('Directions::messages.direction_guideline_name')}}</label>
                                 <input class="form-control" name="direction_guideline_name" @if(isset($directions))  value="{{$directions[0]->direction_set_name }}" @endif>

@@ -8,6 +8,9 @@
             page-break-inside: avoid;
         }
     </style>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <p>The euro character: &#0128;</p>
 </head>
 <body>
     <div class="container">

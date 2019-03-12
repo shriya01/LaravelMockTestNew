@@ -15,7 +15,7 @@ class CreateAnswerImageTable extends Migration
     {
         Schema::create('answer_image', function (Blueprint $table) {
             $table->increments('id');
-               $table->integer('question_id')->unsigned();
+            $table->integer('question_id')->unsigned();
             $table->string('answer_image');
             $table->foreign('question_id')->references('id')->on('question_sets');
             $table->timestamps();

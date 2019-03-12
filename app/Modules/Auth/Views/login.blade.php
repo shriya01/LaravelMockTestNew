@@ -24,7 +24,7 @@
         @csrf
         <h2 class="text-center">Sign in</h2>        
         <div class="text-center social-btn">
-            <a href="{{url('facebook-login')}}" class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Sign in with <b>Facebook</b></a>
+            <a href="{{url('facebook-login')}}" class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
             <a href="{{url('github-login')}}" class="btn btn-info btn-block"><i class="fa fa-github"></i> Sign in with <b>Gihub</b></a>
             <a href="{{url('google-login')}}" class="btn btn-danger btn-block"><i class="fa fa-google"></i> Sign in with <b>Google</b></a>
         </div>
