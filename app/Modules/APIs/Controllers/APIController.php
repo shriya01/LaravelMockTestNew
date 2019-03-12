@@ -50,7 +50,7 @@ class APIController extends Controller
         $input['first_name'] =$input['name'];
         $input['password'] = bcrypt($input['password']); 
         $user = User::create($input); 
-        $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+        $success['token'] =  $user->createToken('MyApp')->accessToken; 
         $success['name'] =  $user->first_name;
         return response()->json(['success'=>$success], $this-> successStatus); 
     }

@@ -11,13 +11,13 @@ use Validator,Crypt,PDF,DB;
 use App\Models\Answers;
 
 /**
-* Question Sets Controller
-* @package                LaravelMockTest
-* @subpackage             QuestionSetsController
-* @category               Controller
-* @DateOfCreation         10 Dec 2018
-* @ShortDescription       This class handles question set related operations 
-*/
+ * Question Sets Controller
+ * @package                LaravelMockTest
+ * @subpackage             QuestionSetsController
+ * @category               Controller
+ * @DateOfCreation         10 Dec 2018
+ * @ShortDescription       This class handles question set related operations 
+ */
 class QuestionSetsController extends Controller
 {
 	public function __construct()
@@ -99,7 +99,6 @@ class QuestionSetsController extends Controller
 			'question'             => 'required|unique:question_sets',
 			'id'                   => 'required', 
 			'correct_option_value' => 'required',
-			'answer'			   => 'required',
 		);
 		if(!empty($request->question_id))
 		{
@@ -137,18 +136,23 @@ class QuestionSetsController extends Controller
 				{
 					QuestionSet::where('id',$id)->update($formData);
 				}
-				$formData = [
+				if(!empty($request->answer))
+				{
+					$formData = [
 					'answer'=> $request->answer,
 					'question_id'=>$id
-				];
-				$answers = Answers::where('question_id',$id)->get()->toArray();
-				if(empty($answers)){
-					Answers::create($formData);
+					];
+					$answers = Answers::where('question_id',$id)->get()->toArray();
+					if(empty($answers)){
+						Answers::create($formData);
+					}
+					else
+					{
+						Answers::where('question_id',$id)->update($formData);
+					}
+
 				}
-				else
-				{
-					Answers::where('question_id',$id)->update($formData);
-				}
+				
 				if($request->has('image')){
                     $file = $request->file('image');
                     $fileName =  $file->getClientOriginalName().date('y-m-d');

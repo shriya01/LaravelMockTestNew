@@ -73,6 +73,12 @@ h4{
                 <li><h4>To change your answer to a question that has already been answered, first select that question for answering and then follow the procedure for answering that type of question.</h4></li>
             </ul>
             <button  class="next pull-right btn btn-primary  btn-sm mr-2">Next</button>
+             <div class="btn-group btn-sm-2"  />
+  <div class="btn-group">
+    <button type="button" style="background-color: #7442f4" class="btn btn-primary">Mark for review</button>
+  </div>
+
+</div> 
         </div>
     </div>
 </div>  
